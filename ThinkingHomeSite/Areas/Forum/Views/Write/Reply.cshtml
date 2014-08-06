@@ -1,0 +1,22 @@
+﻿@model SimpleForum.Web.Models.Write.ReplyModel
+
+<ol class="breadcrumb">
+	<li>@Html.ActionLink("Forum", "Index", "Forum")</li>
+	<li>@Html.ActionLink(Model.SectionTitle, "Index", "Section", new { id = Model.SectionId }, null)</li>
+	<li>@Html.ActionLink(Model.TopicSubject, "Index", "Topic", new { id = Model.TopicId }, null)</li>
+	<li class="active">Post a reply</li>
+</ol>
+
+<h2>@Model.TopicSubject</h2>
+<hr />
+
+<h3>Post a reply</h3>
+
+@using (Html.BeginForm())
+{
+	<div class="form-group">
+		@Html.TextAreaFor(m => m.Text, new { @class = "form-control", rows = 7 })
+		@Html.ValidationMessageFor(m => m.Text)
+	</div>
+	<button type="submit" class="btn btn-primary">Submit</button>
+}

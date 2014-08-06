@@ -1,0 +1,56 @@
+﻿@model SimpleForum.Web.Models.Forum.ForumIndexModel
+
+<ol class="breadcrumb">
+  <li class="active">Forum</li>
+</ol>
+
+<h2>Simple forum</h2>
+<hr />
+
+<table class="table">
+	<colgroup>
+		<col style="width: 42px;" />
+		<col />
+		<col />
+		<col />
+		<col style="width: 30%;" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th colspan="2"></th>
+			<th>Topics</th>
+			<th>Replies</th>
+			<th>Last reply</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var sectionModel in Model.Sections)
+		{
+			<tr>
+				<td>
+					<i class="fa fa-folder-open-o fa-2x text-muted"></i>
+				</td>
+				<td>
+					<a href="@Url.Action("Index", "Section", new { id = sectionModel.Id })">@sectionModel.Title</a>
+					<p class="help-block">@sectionModel.Description</p>
+				</td>
+				<td>@sectionModel.TopicCount.GetValueOrDefault()</td>
+				<td>@sectionModel.ReplyCount.GetValueOrDefault()</td>
+				<td>
+					@if (sectionModel.LastReply != null)
+					{
+						<text>
+							by <a href="#">@sectionModel.LastReply.AuthorDisplayName</a>
+							in <a href="@Url.Action("Index", "Topic", new { id = sectionModel.LastReply.TopicId })">@sectionModel.LastReply.TopicSubject</a>
+							on @sectionModel.LastReply.Created.ToShortDateString() @sectionModel.LastReply.Created.ToShortTimeString()
+						</text>
+					}
+					else
+					{
+						<text>No replies</text>
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
