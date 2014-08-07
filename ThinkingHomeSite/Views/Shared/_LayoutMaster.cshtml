@@ -1,5 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+	Layout = null;
 
+	var getCssClass = new Func<string, string>(x => x == ViewBag.Name ? "active" : string.Empty);
+}
+
+<!DOCTYPE html>
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -13,7 +18,49 @@
 </head>
 <body>
 	<div class="container">
+		<div class="clearfix">
+			<div class="row">
+				<div class="col-md-4 site-logo-area">
+					<a class="site-logo" href="@Url.Action("Index", "Home", new { Area = "" })">
+
+						<div class="site-logo-name">
+							@*<span class="site-logo-icon"></span>*@Thinking-Home.<span class="site-logo-subname">System</span>
+						</div>
+						<br />
+						<span class="site-subtitle">умный дом &mdash; это просто</span>
+					</a>
+				</div>
+
+				<div class="col-md-8">
+					<ul class="nav nav-pills pull-right">
+						<li class="@getCssClass("Welcome")">
+							<a href="@Url.Action("Index", "Home", new { Area = "" })">Добро пожаловать!</a>
+						</li>
+						<li class="@getCssClass("Scripts")">
+							<a href="@Url.Action("Scripts", "Home", new { Area = "" })">Сценарии</a>
+						</li>
+						<li class="@getCssClass("Plugins")">
+							<a href="@Url.Action("Plugins", "Home", new { Area = "" })">Создание плагинов</a>
+						</li>
+						<li class="@getCssClass("UiForPlugins")">
+							<a href="@Url.Action("UiForPlugins", "Home", new { Area = "" })">UI для плагинов</a>
+						</li>
+						<li class="@getCssClass("Forum")">
+							<a href="@Url.Action("Index", "Forum", new { Area = "Forum" })">Форум</a>
+						</li>
+					</ul>
+
+				</div>
+
+			</div>
+		</div>
+
 		@RenderBody()
+
+		<hr />
+		<footer>
+			<p>&copy; Thinking-Home.RU 2013-2014</p>
+		</footer>
 	</div>
 </body>
 </html>
