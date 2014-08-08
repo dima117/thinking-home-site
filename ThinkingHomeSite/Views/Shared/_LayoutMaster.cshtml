@@ -4,24 +4,24 @@
 
 @helper RenderNavMenuItem(string title, string action, string controller, string area = "")
 {
-	var url = Url.Action(action, controller, new {Area = area}) ?? "/";
+	var url = Url.Action(action, controller, new { Area = area }) ?? "/";
 	bool isRoot = VirtualPathUtility.ToAppRelative(url) == "~/";
 
-	bool isActiveItem = isRoot 
+	bool isActiveItem = isRoot
 		? Request.RawUrl.Equals(url, StringComparison.InvariantCultureIgnoreCase)
 		: Request.RawUrl.StartsWith(url, StringComparison.InvariantCultureIgnoreCase);
 
 	if (isActiveItem)
 	{
-		<li class="active">
-			<a href="#">@title</a>
-		</li>
+	<li class="active">
+		<a href="#">@title</a>
+	</li>
 	}
 	else
 	{
-		<li>
-			<a href="@url">@title</a>
-		</li>
+	<li>
+		<a href="@url">@title</a>
+	</li>
 	}
 }
 
@@ -32,6 +32,8 @@
 	<title>@ViewBag.Title</title>
 	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 	<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+	<link href="~/Content/site.css" rel="stylesheet" />
+
 	<script src="~/Scripts/jquery-2.1.1.min.js"></script>
 	<script src="~/Scripts/jquery.validate.min.js"></script>
 	<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -39,33 +41,23 @@
 </head>
 <body>
 	<div class="container">
-		<div class="clearfix">
-			<div class="row">
-				<div class="col-md-4 site-logo-area">
-					<a class="site-logo" href="@Url.Action("Index", "Home", new { Area = "" })">
+		<div class="row ths-site-header">
+			<div class="col-md-4">
+				<a class="ths-brand-name" href="@Url.Action("Index", "Home", new { Area = "" })">Thinking-Home.<span>System</span>
+				</a>
+			</div>
 
-						<div class="site-logo-name">
-							@*<span class="site-logo-icon"></span>*@Thinking-Home.<span class="site-logo-subname">System</span>
-						</div>
-						<br />
-						<span class="site-subtitle">умный дом &mdash; это просто</span>
-					</a>
-				</div>
-
-				<div class="col-md-8">
-					<ul class="nav nav-pills pull-right">
-						@RenderNavMenuItem("Добро пожаловать!", "Index", "Home")
-						@RenderNavMenuItem("Сценарии", "Scripts", "Home")
-						@RenderNavMenuItem("Создание плагинов", "Plugins", "Home")
-						@RenderNavMenuItem("UI для плагинов", "UiForPlugins", "Home")
-						@RenderNavMenuItem("Форум", "Index", "Forum", "Forum")
-					</ul>
-				</div>
+			<div class="col-md-8">
+				<ul class="nav nav-pills pull-right">
+					@RenderNavMenuItem("Добро пожаловать!", "Index", "Home")
+					@RenderNavMenuItem("Сценарии", "Scripts", "Home")
+					@RenderNavMenuItem("Создание плагинов", "Plugins", "Home")
+					@RenderNavMenuItem("UI для плагинов", "UiForPlugins", "Home")
+					@RenderNavMenuItem("Форум", "Index", "Forum", "Forum")
+				</ul>
 			</div>
 		</div>
-
 		@RenderBody()
-
 		<hr />
 		<footer>
 			<p>&copy; Thinking-Home.RU 2013-2014</p>

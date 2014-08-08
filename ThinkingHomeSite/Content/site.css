@@ -1,54 +1,44 @@
-﻿@font-face {
-	font-family: "Raleway";
-	font-style: normal;
-	font-weight: bold;
-	src: url("../fonts/raleway.eot?#iefix") format("embedded-opentype"), url("../fonts/raleway.svg#ralewaythin") format("svg"), url("../fonts/raleway.woff") format("woff"), url("../fonts/raleway.ttf") format("truetype");
+﻿.ths-site-header {
+	margin: 20px -15px;
 }
 
-@media(max-width:768px) {
-	.site-logo-area 
-	{
-		margin-left: 16px;
-		margin-bottom: 22px;
-	}
-}
-
-.site-logo {
-	white-space: nowrap;
-}
-
-.site-logo:hover {
-	text-decoration: none;
-}
-
-.site-logo-icon {
-	background-image: url(../img/logo.png);
-	background-repeat: no-repeat;
-	width: 36px;
-	height: 36px;
-	display: inline-block;
-	position: relative;
-	top: 6px;
-}
-
-.site-logo-name {
-	font-family: 'Raleway', Tahoma;
-	color: #333;
-	font-size: 26px;
-	line-height: 26px;
-	height: 26px;
-	display: inline-block;
-}
-
-.site-logo-subname
-{
-	color: #3399FF;
-}
-
-.site-subtitle {
+.ths-brand-name {
+	height: 40px;
+	line-height: 40px;
+	font-size: 28px;
 	font-family: 'Segoe UI';
-	color: gray;
-	font-size: 12px;
-	letter-spacing: 6px;
+    font-weight: 100;
+	color: #808080 !important;
+	text-decoration: none !important;
 }
 
+.ths-brand-name span {
+	color: #5d9bd1;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background-color: #5d9bd1;
+}
+
+.jumbotron {
+	/*background-color: #5d9bd1;*/
+	background-color: #5d9bd1;
+	color: #fff;
+	margin: 0 -15px;
+}
+
+.jumbotron .btn {
+	margin-bottom: 8px;
+}
+
+.btn-outline-inverse {
+    background-color: transparent;
+    border-color: #cdbfe3;
+    color: #fff;
+}
+.btn-outline-inverse:hover, .btn-outline-inverse:focus, .btn-outline-inverse:active {
+    background-color: #fff;
+    border-color: #fff;
+    color: #5d9bd1;
+    text-shadow: none;
+}

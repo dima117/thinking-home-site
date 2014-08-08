@@ -180,7 +180,6 @@
     <Content Include="Views\Shared\_LayoutMaster.cshtml" />
     <Content Include="_ViewStart.cshtml" />
     <Content Include="Views\Home\UiForPlugins.cshtml" />
-    <Content Include="Views\Home\GettingStarted.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Plugins.cshtml" />
     <Content Include="Views\Home\Scripts.cshtml" />
@@ -234,7 +233,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>24797</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:3571/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
