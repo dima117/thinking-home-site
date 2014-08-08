@@ -1,7 +1,28 @@
 ﻿@{
 	Layout = null;
+}
 
-	var getCssClass = new Func<string, string>(x => x == ViewBag.Name ? "active" : string.Empty);
+@helper RenderNavMenuItem(string title, string action, string controller, string area = "")
+{
+	var url = Url.Action(action, controller, new {Area = area}) ?? "/";
+	bool isRoot = VirtualPathUtility.ToAppRelative(url) == "~/";
+
+	bool isActiveItem = isRoot 
+		? Request.RawUrl.Equals(url, StringComparison.InvariantCultureIgnoreCase)
+		: Request.RawUrl.StartsWith(url, StringComparison.InvariantCultureIgnoreCase);
+
+	if (isActiveItem)
+	{
+		<li class="active">
+			<a href="#">@title</a>
+		</li>
+	}
+	else
+	{
+		<li>
+			<a href="@url">@title</a>
+		</li>
+	}
 }
 
 <!DOCTYPE html>
@@ -33,25 +54,13 @@
 
 				<div class="col-md-8">
 					<ul class="nav nav-pills pull-right">
-						<li class="@getCssClass("Welcome")">
-							<a href="@Url.Action("Index", "Home", new { Area = "" })">Добро пожаловать!</a>
-						</li>
-						<li class="@getCssClass("Scripts")">
-							<a href="@Url.Action("Scripts", "Home", new { Area = "" })">Сценарии</a>
-						</li>
-						<li class="@getCssClass("Plugins")">
-							<a href="@Url.Action("Plugins", "Home", new { Area = "" })">Создание плагинов</a>
-						</li>
-						<li class="@getCssClass("UiForPlugins")">
-							<a href="@Url.Action("UiForPlugins", "Home", new { Area = "" })">UI для плагинов</a>
-						</li>
-						<li class="@getCssClass("Forum")">
-							<a href="@Url.Action("Index", "Forum", new { Area = "Forum" })">Форум</a>
-						</li>
+						@RenderNavMenuItem("Добро пожаловать!", "Index", "Home")
+						@RenderNavMenuItem("Сценарии", "Scripts", "Home")
+						@RenderNavMenuItem("Создание плагинов", "Plugins", "Home")
+						@RenderNavMenuItem("UI для плагинов", "UiForPlugins", "Home")
+						@RenderNavMenuItem("Форум", "Index", "Forum", "Forum")
 					</ul>
-
 				</div>
-
 			</div>
 		</div>
 
