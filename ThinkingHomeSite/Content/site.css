@@ -42,3 +42,8 @@
     color: #5d9bd1;
     text-shadow: none;
 }
+
+.ths-image {
+	border: 1px solid #ddd;
+	margin: 40px auto;
+}
