@@ -187,9 +187,7 @@
     <Content Include="Views\Home\Plugins.cshtml" />
     <Content Include="Views\Home\Scripts.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
