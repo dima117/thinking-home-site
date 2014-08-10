@@ -1,9 +1,10 @@
-﻿@model SimpleForum.Web.Models.Topic.TopicIndexModel
+﻿@using SimpleForum.Web.Resources
+@model SimpleForum.Web.Models.Topic.TopicIndexModel
 
 <div id="top"></div>
 
 <ol class="breadcrumb">
-	<li>@Html.ActionLink("Forum", "Index", "Forum")</li>
+	<li>@Html.ActionLink(ModelResources.Forum, "Index", "Forum")</li>
 	<li>@Html.ActionLink(Model.SectionTitle, "Index", "Section", new { id = Model.SectionId }, null)</li>
 	<li class="active">@Model.Subject</li>
 </ol>
@@ -11,7 +12,7 @@
 <h2>@Model.Subject</h2>
 <hr />
 <p>
-	<a href="@Url.Action("Reply", "Write", new { id = Model.Id })" class="btn btn-primary">Post a reply</a>
+	<a href="@Url.Action("Reply", "Write", new { id = Model.Id })" class="btn btn-primary">@ViewResources.Topic_PostReply</a>
 </p>
 <hr />
 
@@ -22,11 +23,11 @@
 {
 	@Html.Partial("Message", reply)
 	<p class="clearfix">
-		<a class="btn btn-info btn-xs pull-right" href="#top">Top</a>
+		<a class="btn btn-info btn-xs pull-right" href="#top">@ViewResources.Topic_Top</a>
 	</p>
 	<hr />
 }
 
 <p>
-	<a href="@Url.Action("Reply", "Write", new { id = Model.Id })" class="btn btn-primary">Post a reply</a>
+	<a href="@Url.Action("Reply", "Write", new { id = Model.Id })" class="btn btn-primary">@ViewResources.Topic_PostReply</a>
 </p>
