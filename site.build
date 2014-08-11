@@ -58,7 +58,7 @@
 
 		<mkdir unless="${directory::exists(site.dir)}"  dir="${site.dir}" />
 
-		<copy todir="${site.dir}">
+		<copy todir="${site.dir}" overwrite="true" verbose="true">
 			<fileset basedir="${dist.dir}">
 				<include name="**\*"/>
 			</fileset>
