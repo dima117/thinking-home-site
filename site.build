@@ -22,7 +22,7 @@
 		<mkdir dir="${dist.dir}" />
 
 		<echo message="Prepare application" />
-		<copy todir="${dist.dir}" includeemptydirs="false">
+		<copy todir="${dist.dir}" includeemptydirs="false" overwrite="true" verbose="true">
 			<fileset basedir="${web.dir}">
 				<include name="**\*"/>
 				<exclude name="**\*.cs" />
