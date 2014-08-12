@@ -585,39 +585,95 @@ public void MyHandler(DateTime now)
 			указанным в атрибуте <code>[HttpCommand]</code>.
 		</p>
 		<p>
-			Например, описанный выше метод будет вызываться для запросов типа
+			Например, описанный выше метод будет вызываться для запросов
 			<code>http://localhost:41831/<strong>api/my-plugin/my-method</strong></code>.
 		</p>
-		---------
 		<p>
-			Обработчик события должен принимать один параметр <code>dynamic</code> (аргументы запроса)
-				и должен возвращать значение типа <code>object</code> (будет сериализовано в JSON и возвращено 
-				на клиент).
+			<strong>Внимание!</strong> Если в плагинах, подключенных к системе, будет содержаться более
+			одного обработчика для обного и того же адреса, в методе InitPlugin плагина Listener будет 
+			сгенерировано исключение и сервис не будет запущен. Информация об исключении будет записана в лог.
 		</p>
 		<p>
-			Для передачи обработчику аргументов используйте параметр HTTP-запроса с именем 
-				<strong>json</strong> (можно передать как в GET, так и в POST запросах).
-				Значение этого параметра будет десериализовано в <code>dynamic</code> объект и передано
-				обработчику запроса (входной параметр обработчика).
+			Как было указано выше, методы-обработчики HTTP запросов принимают единственный параметр - экземпляр класса
+			<code>ThinkingHome.Plugins.Listener.Api.HttpRequestParams</code>. С его помощью можно получить значения
+			параметров запроса (как параметров URL, так и POST-параметров).
+		</p>
+		<pre>
+public class HttpRequestParams
+{
+	// <strong>коллекция параметров URL</strong>
+	public readonly NameValueCollection UrlData;
+		
+	// <strong>коллекция POST параметров</strong>
+	public readonly NameValueCollection FormData;
+	
+	// <strong>получение необзятельных параметров (переданых любым способом)</strong>
+	// <strong>если параметр отсутствует или не может быть преобразован</strong>
+	// <strong>в значение нужного типа, то возвращается null</strong>
+	public string GetString(string name);
+	public int? GetInt32(string name);
+	public Guid? GetGuid(string name);
+	public bool? GetBool(string name);
+		
+	// <strong>получение обзятельных параметров (переданых любым способом)</strong>
+	// <strong>если параметр отсутствует или не может быть преобразован</strong>
+	// <strong>в значение нужного типа, генерируется исключение</strong>
+	public string GetRequiredString(string name);
+	public int GetRequiredInt32(string name);
+	public Guid GetRequiredGuid(string name);
+	public bool GetRequiredBool(string name);
+}
+</pre>
+		<p>
+			Обработчики HTTP запросов должный возвращать значение <code>object</code>. Оно будет 
+			сериализовано в JSON и передано на клиент. Если вы не хотите возвращать на клиент значение,
+			напишите в обработчике <code>return null;</code>.
 		</p>
 		<p>
-			Например, для сохранения текста скрипта нужно сделать запрос на адрес 
-				<code>http://localhost:8000/api/Scripts/SaveScript</code><br />
-			с параметром <code>json={"id":"61c70584-7942-4958-87da-0b469fa6997a","body":"host.logInfo(\"Hello,
-				world!\");"}</code>
+			Пример обработки HTTP запроса из плагина "WeatherUIPlugin" (обновление прогноза погоды для выбранного города):
 		</p>
+		<pre>
+[HttpCommand("/api/weather/locations/update")]
+public object UpdateLocationWeather(HttpRequestParams request)
+{
+	// <strong>получаем ID города из параметров запроса</strong>
+	var locationId = request.GetRequiredGuid("locationId");
+	
+	// обновляем погоду
+	Context.GetPlugin&lt;WeatherPlugin>().ReloadWeatherData(locationId);
+	
+	// <strong>возвращаем null</strong>
+	return null;
+}
+</pre>
+		<h3>Обращение по HTTP к файлам из ресурсов плагина</h3>
 		<p>
-			В этом примере запрос будет передан методу <strong>SaveScript</strong> плагина <strong>Scripts</strong>
-			с параметрами:
-			<br />
-			<strong>id</strong> = "61c70584-7942-4958-87da-0b469fa6997a" и <strong>body</strong>
-			= "host.logInfo(\"Hello, world!\");".
+			Плагин "ListenerPlugin" также позволяет назначать URL для файлов, находящихся в ресурсах плагина
+			(Embedded Resource). Т.е. вы можете пометить плагин специальным атрибутом
+			<code>ThinkingHome.Plugins.Listener.Attributes.HttpResourceAttribute</code> и в его параметрах
+			указать, какой файл нужно вернуть по какому URL. Например, эта возможность используется
+			для подключения в веб-интерфейс шрифта с погодными иконками:
 		</p>
-		<p>
-			Кроме параметра "json" можно также можно указать необязательный параметр <strong>callback</strong>, 
-				задающий название JS функции для обработки результатов запроса (JSONP).
-		</p>
-		<h4>Управление электроприборами</h4>
+		<pre>
+[HttpResource(
+	"/webapp/weather/fonts/weathericons-regular-webfont.eot", 
+	"ThinkingHome.Plugins.Weather.Resources.fonts.weathericons-regular-webfont.eot", 
+	"application/vnd.ms-fontobject")]
+
+[HttpResource(
+	"/webapp/weather/fonts/weathericons-regular-webfont.svg", 
+	"ThinkingHome.Plugins.Weather.Resources.fonts.weathericons-regular-webfont.svg", 
+	"image/svg+xml")]
+	
+	...
+</pre>
+		<ul class="list-unstyled">
+			<li>Первый параметр - это относительный URL, при запросе на который будет возвращен указанный файл.</li>
+			<li>Второй параметр - путь к файлу в ресурсах плагина.</li>
+			<li>Третий (не обязательный) параметр - mime type:
+			если его не указать, файл будет передан на клиент как "text/plain".</li>
+		</ul>
+		<h3>Управление электроприборами</h3>
 		<p>
 			Плагин <code>ThinkingHome.Plugins.NooLite.NooLitePlugin</code> позволяет управлять электроприборами
 				через систему nooLite и обрабатывать команды пультов nooLite, полученные USB-адаптером RX1164.
