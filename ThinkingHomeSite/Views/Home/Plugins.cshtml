@@ -34,7 +34,7 @@
 			<li>Создать класс и пометить его атрибутом <code>[ThinkingHome.Core.Plugins.PluginAttribute]</code>;
 			</li>
 			<li>Унаследовать созданный класс от базового класса <code>ThinkingHome.Core.Plugins.Plugin</code>
-				и, при необходимости, переопределить его виртуальные методы <code>void InitPlugin()</code> 
+				и, при необходимости, переопределить его виртуальные методы <code>void InitPlugin()</code>
 				(инициализация), <code>void StartPlugin()</code> (выполняется при запуске сервиса, когда 
 				все плагины уже инициализорованы), <code>void StopPlugin()</code> (выполняется при 
 				остановке сервиса).
@@ -676,30 +676,31 @@ public object UpdateLocationWeather(HttpRequestParams request)
 		<h3>Управление электроприборами</h3>
 		<p>
 			Плагин <code>ThinkingHome.Plugins.NooLite.NooLitePlugin</code> позволяет управлять электроприборами
-				через систему nooLite и обрабатывать команды пультов nooLite, полученные USB-адаптером RX1164.
+			через систему nooLite и обрабатывать команды от пультов и датчиков nooLite, полученные 
+			USB-адаптером RX1164/2164.
 		</p>
 		<p>
 			Для отправки команд силовым блокам nooLite через USB-адаптер PC11xx используйте метод 
-				<code>SetLevel</code>. Этот метод получает 2 аргумента: номер канала и уровень яркости, 
-				который нужно установить в канале.
+			<code>void SetLevel(int channel, int level)</code>. Этот метод принимает 2 аргумента: 
+			номер канала и уровень яркости, который нужно установить в канале.
 		</p>
 		<pre>
-	// устанавливаем в 7 канале уровень яркости = 90
+	// устанавливаем в 7 канале уровень яркости = 90%
 	Context.GetPlugin&lt;<strong>NooLitePlugin</strong>>().SetLevel(7, 90);
 </pre>
 		<p>
-			Для подписки на событие "получена команда" USB-адаптера RX1164 используйте атрибут
-				<code>ThinkingHome.Plugins.NooLite.OnRX1164CommandReceivedAttribute</code>. Обработчики
-				этого события получают три аргумента:
+			Для подписки на событие "получена команда" USB-адаптера RX1164/2164 используйте атрибут
+			<code>ThinkingHome.Plugins.NooLite.OnRXCommandReceivedAttribute</code>. Обработчики
+			этого события получают три аргумента:
 		</p>
 		<ul>
-			<li><code>int cmd</code> - полученная команда (номера команд см. в описании адаптера RX1164);</li>
+			<li><code>int cmd</code> - полученная команда (номера команд см. в описании адаптера RX1164/2164);</li>
 			<li><code>int channel</code> - номер канала;</li>
-			<li><code>byte[] data</code> - данные, переданные с командой (см. описание адаптера RX1164).</li>
+			<li><code>byte[] data</code> - данные, переданные с командой (см. описание адаптера RX1164/2164).</li>
 		</ul>
 		<pre>
-[OnRX1164CommandReceived]
-public object MyRX1164Handler(int cmd, int channel, byte[] data)
+[OnRXCommandReceived]
+public void MyNooLiteRXHandler(int cmd, int channel, byte[] data)
 {
 	Logger.Info("Получена команда {0} в {1} канале", cmd, channel);
 }
