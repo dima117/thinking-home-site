@@ -57,6 +57,12 @@
       <HintPath>..\packages\MarkdownDeep.NET.1.5\lib\.NetFramework 3.5\MarkdownDeep.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="SimpleForum.Domain">
+      <HintPath>..\packages\SimpleForum.0.4.1.0\lib\net45\SimpleForum.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleForum.Web">
+      <HintPath>..\packages\SimpleForum.0.4.1.0\lib\net45\SimpleForum.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -157,6 +163,16 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="Areas\Forum\Views\Web.config" />
+    <Content Include="Areas\Forum\Views\Write\Topic.cshtml" />
+    <Content Include="Areas\Forum\Views\Write\Reply.cshtml" />
+    <Content Include="Areas\Forum\Views\Topic\Index.cshtml" />
+    <Content Include="Areas\Forum\Views\Shared\Message.cshtml" />
+    <Content Include="Areas\Forum\Views\Section\Index.cshtml" />
+    <Content Include="Areas\Forum\Views\Forum\Index.cshtml" />
+    <Content Include="Areas\Forum\Views\Account\UserInfo.cshtml" />
+    <Content Include="Areas\Forum\Views\Account\Registration.cshtml" />
+    <Content Include="Areas\Forum\Views\Account\Login.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

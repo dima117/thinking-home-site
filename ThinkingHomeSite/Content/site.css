@@ -1,5 +1,5 @@
 ﻿.ths-site-header {
-	margin: 20px -15px;
+	margin: 20px -15px 42px -15px;
 }
 
 .ths-brand-name {
@@ -49,5 +49,6 @@
 }
 
 .ths-social {
-	margin-top: 26px;
+	margin-top: 8px;
+	margin-right: 4px;
 }
