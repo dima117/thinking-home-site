@@ -147,9 +147,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\images\common-pages.png" />
     <Content Include="Content\images\script-editor.png" />
     <Content Include="Content\images\script-event-handlers.png" />
     <Content Include="Content\images\script-list.png" />
+    <Content Include="Content\images\start-page-large.png" />
+    <Content Include="Content\images\start-page-small.png" />
+    <Content Include="Content\images\system-pages.png" />
     <Content Include="Content\site.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
