@@ -2,17 +2,6 @@
 	ViewBag.Title = "Добро пожаловать!";
 }
 
-<script>
-
-	addListener(document.getElementById('btn-download'), 'click', function () {
-		ga('send', 'event', 'btn-download', 'click');
-	});
-
-	addListener(document.getElementById('btn-view-source'), 'click', function () {
-		ga('send', 'event', 'btn-view-source', 'click');
-	});
-</script>
-
 <div class="jumbotron">
 	<h1>Умный дом &mdash; это просто</h1>
 	<p class="lead">
@@ -66,3 +55,13 @@
 	</div>
 </div>
 
+<script>
+
+	addListener(document.getElementById('btn-download'), 'click', function () {
+		ga('send', 'event', 'btn-download', 'click');
+	});
+
+	addListener(document.getElementById('btn-view-source'), 'click', function () {
+		ga('send', 'event', 'btn-view-source', 'click');
+	});
+</script>
