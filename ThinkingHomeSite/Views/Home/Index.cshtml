@@ -2,21 +2,31 @@
 	ViewBag.Title = "Добро пожаловать!";
 }
 
-@section jumbotron
-{
-	<div class="jumbotron">
-		<h1>Умный дом &mdash; это просто</h1>
-		<p class="lead">
-			ThinkingHome &mdash; это система управления вашим домом. 
-		</p>
-		<p>
-			<a class="btn btn-lg btn-outline-inverse" href="#" role="button">Скачать
-			</a>
-			<a class="btn btn-lg btn-outline-inverse" href="https://github.com/dima117/thinking-home" target="_blank">Исходный код на GitHub
-			</a>
-		</p>
-	</div>
-}
+<script>
+
+	addListener(document.getElementById('btn-download'), 'click', function () {
+		ga('send', 'event', 'btn-download', 'click');
+	});
+
+	addListener(document.getElementById('btn-view-source'), 'click', function () {
+		ga('send', 'event', 'btn-view-source', 'click');
+	});
+</script>
+
+<div class="jumbotron">
+	<h1>Умный дом &mdash; это просто</h1>
+	<p class="lead">
+		ThinkingHome &mdash; это система управления вашим домом.
+	</p>
+	<p>
+		<a id="btn-download" class="btn btn-lg btn-outline-inverse" href="#" role="button">
+			Скачать
+		</a>
+		<a id="btn-view-source" class="btn btn-lg btn-outline-inverse" href="https://github.com/dima117/thinking-home" target="_blank">
+			Исходный код на GitHub
+		</a>
+	</p>
+</div>
 
 <div class="row">
 	<div class="col-md-12">
@@ -38,7 +48,7 @@
 		</p>
 		<p>
 			<img style="margin: 40px auto;" class="img-responsive" src="~/Content/img/scheme.png"
-				alt="Thinking-Home.System - управление домом по сценариям" />
+				 alt="Thinking-Home.System - управление домом по сценариям" />
 		</p>
 		<p>
 			Сервис имеет систему плагинов. При помощи плагинов можно расширять список возможных
@@ -55,5 +65,4 @@
 		</p>
 	</div>
 </div>
-
 
