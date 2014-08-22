@@ -65,8 +65,8 @@
 		</p>
 		<pre>
 define(
-	['app', 'marionette'],
-	function (application, marionette) {
+	['app', 'marionette', 'backbone', 'underscore'],
+	function (application, marionette, backbone, _) {
 		var module = {
 		<strong>start</strong>: function () {
 				alert("module started!");
@@ -93,6 +93,8 @@ define(
 			на экране), 'marionette' - это предопределенное имя модуля библиотеки
 			<a href="http://marionettejs.com" target="_blank">marionette.js</a>
 			(там содержатся средства, облегчающие разработку пользовательского интерфейса).
+			'backbone' - предопределенное имя модуля библиотеки
+			<a href="http://backbonejs.org/" target="_blank">backbone.js</a>.
 		</p>
 		<p>
 			Для того, чтобы модуль мог быть использован веб-интерфейсом, необходимо, чтобы он
@@ -120,9 +122,9 @@ define(
 		<pre>
 [Plugin]
 [AppSection(<strong>"My plugin"</strong>,		// название рездела
-	<strong>SectionType.Common</strong>,		// тип раздела
-	<strong>"/my-plugin/my-file.js"</strong>,	// URL
-	<strong>"ThinkingHome.Plugins.MyPlugin.Resources.my-file.js"</strong>)]
+		<strong>SectionType.Common</strong>,		// тип раздела
+		<strong>"/my-plugin/my-file.js"</strong>,	// URL
+		<strong>"ThinkingHome.Plugins.MyPlugin.Resources.my-file.js"</strong>)]
 public class MyPlugin : PluginBase
 {
 	...
@@ -138,7 +140,84 @@ public class MyPlugin : PluginBase
 		</p>
 		<h2>Отображение данных на странице</h2>
 		<p>
+			Данные появляются в модуле из источника данных (например они могут быть получены с сервера или введены пользователем).
+			Будем считать, что изначально данные существуют в виде объектов JavaScript. Для примера создадим объекты внутри приложения.
 		</p>
+		<pre>
+start: function () {
+	...
+	var items = [
+		{ id: 1, name: 'Lev Tolstoy' },
+		{ id: 2, name: 'Ivan Turgenev' },
+		{ id: 3, name: 'Nikolay Gogol' },
+		{ id: 4, name: 'Alexander Pushkin' }
+	];
+	
+	var model = new backbone.Collection(items);
+	...
+}
+</pre>
+		<p>
+			В приведенном примере мы создали массив объектов, каждый из которых имеет два поля: id (номер объекта) и name (текстовое поле).
+			Также мы создали специальный объект - модель для нашего нашего массива (с помощью библиотеки Backbone.js). Благодаря Backbone.js
+			мы имеем средства для удобной работы с нашими объектами. Например, мы легко можем задать порядок сортировки для коллекции
+			и при обращении к ее элементам они будут выдаваться в нужном порядке.
+		</p>
+		<pre>
+		...
+		var model = new backbone.Collection(items);
+		model.comparator = 'name';
+		
+		model.sort();
+		model.each(function(obj) {
+			console.log(obj.get('name'));
+		});
+		
+		/*
+			будет выведено:
+				Alexander Pushkin
+				Ivan Turgenev
+				Lev Tolstoy
+				Nikolay Gogol
+		*/
+</pre>
+		<p>
+			Обратите внимание, объект <code>backbone</code>, к которому мы обращались при создании модели - это входной параметр нашей функции инициализации
+			модуля. Это третий по списку параметр, а значит, в качестве его значения будет передан объект, соответствующий третьему пункту нашего списка
+			зависимостей (т.е. туда будет передан объект Backbone из библиотеки backbone.js).
+		</p>
+		<p>
+			Для отображения данных в системе используются представления (views) из marionette.js. Представления - это специальные объекты,
+			которые знают, как отобразить данные на странице и какие события сгенерировать при взаимодействии пользователя
+			с элементами интерфейса.
+		</p>
+		<p>
+			Сначала необходимо описать параметры представления и его поведения. Далее нужно создать его объект - экземпляр представления
+			и передать туда модель с данными. После этого нужно вызвать команду "отобразить представление на странице".
+		</p>
+		<pre>
+
+	<strong>// описываем параметры представлений для коллекции и для ее отдельного элемента</strong>
+	var peopleView = marionette.ItemView.extend({
+			template: _.template('<%= name %> (<%= id %>)')			<strong>// шаблон отображения</strong>
+		});
+		
+	var peoplesView = marionette.CompositeView.extend({
+			template: _.template('&lt;h1>Peoples&lt;/h1>&lt;div id="list">&lt;/div>'),	<strong>// шаблон отображения</strong>
+			itemView: peopleView,			<strong>// представление для элемента коллекции</strong>
+			itemViewContainer: '#list'		<strong>// контейнер, куда будут добавляться элементы</strong>
+		});
+		
+	<strong>// создаем экземпляр представления и передаем туда данные (модель Backbone.Collection)</strong>
+	var view = new peoplesView({ collection: model });
+	
+	<strong>// отображаем представление на странице</strong>
+	application.setContentView(view);
+</pre>
+		<p>
+			Обратите внимание, объекты marionette и application - это тоже входные параметры функции инициализации.
+		</p>
+		<h3>Размещение шаблонов в отдельных файлах</h3>
 		<h2>События</h2>
 		<p>
 		</p>
