@@ -196,23 +196,35 @@ start: function () {
 			и передать туда модель с данными. После этого нужно вызвать команду "отобразить представление на странице".
 		</p>
 		<pre>
+define(
+	['app', 'marionette', 'backbone', 'underscore'],
+	function (application, marionette, backbone, _) {
 
-	<strong>// описываем параметры представлений для коллекции и для ее отдельного элемента</strong>
-	var peopleView = marionette.ItemView.extend({
-			template: _.template('<%= name %> (<%= id %>)')			<strong>// шаблон отображения</strong>
-		});
+		<strong>// описываем параметры представлений для коллекции и для ее отдельного элемента</strong>
+		var peopleView = marionette.ItemView.extend({
+				template: _.template('<%= name %> (<%= id %>)')			<strong>// шаблон отображения</strong>
+			});
 		
-	var peoplesView = marionette.CompositeView.extend({
-			template: _.template('&lt;h1>Peoples&lt;/h1>&lt;div id="list">&lt;/div>'),	<strong>// шаблон отображения</strong>
-			itemView: peopleView,			<strong>// представление для элемента коллекции</strong>
-			itemViewContainer: '#list'		<strong>// контейнер, куда будут добавляться элементы</strong>
-		});
+		var peoplesView = marionette.CompositeView.extend({
+				template: _.template('&lt;h1>Peoples&lt;/h1>&lt;div id="list">&lt;/div>'),	<strong>// шаблон отображения</strong>
+				childView: peopleView,			<strong>// представление для элемента коллекции</strong>
+				childViewContainer: '#list'		<strong>// контейнер, куда будут добавляться элементы</strong>
+			});
 		
-	<strong>// создаем экземпляр представления и передаем туда данные (модель Backbone.Collection)</strong>
-	var view = new peoplesView({ collection: model });
+		
+		var module = {
+			<strong>start</strong>: function () {
+				...
+		
+				<strong>// создаем экземпляр представления и передаем туда данные (модель Backbone.Collection)</strong>
+				var view = new peoplesView({ collection: model });
 	
-	<strong>// отображаем представление на странице</strong>
-	application.setContentView(view);
+				<strong>// отображаем представление на странице</strong>
+				application.setContentView(view);
+			}
+		};
+		return module;
+	});
 </pre>
 		<p>
 			Обратите внимание, объекты marionette и application - это тоже входные параметры функции инициализации.
