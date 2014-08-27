@@ -229,6 +229,63 @@ define(
 		<p>
 			Обратите внимание, объекты marionette и application - это тоже входные параметры функции инициализации.
 		</p>
+		<p>
+			Как видите, представление определяется при помощи вызова функции <code>extend</code> для одного из
+			базовых представления из библиотеки marionette.js. В функцию <code>extend</code> передается объект,
+			определяющий параметры, которыми будет расширено базовое представление.
+		</p>
+		<p>
+			Для отображения объекта с данными используйте базовое представление 
+			<a target="_blank" href="https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.itemview.md">marionette.ItemView</a>.
+			Для него необходимо задать только шаблон отображения. При создании экземпляра представления
+			объект с данными (Backbone.Model) нужно поместить в поле <code>model</code>.
+		</p>
+		<pre>
+<strong>// определяем параметры представления</strong>
+var myView = marionette.ItemView.extend({
+	template: _.template('<%= id %>: <%= field1 %> ()')
+});
+...
+
+<strong>// создаем экземпляр представления</strong>
+var view = new myView({ <strong>model</strong>: myDataObject });
+...
+</pre>
+		<p>
+			Для отображения <em>коллекции</em> объектов используйте базовое представление 
+			<a target="_blank" href="https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.compositeview.md">marionette.CompositeView</a>.
+			Кроме шаблона, необходимо указать представление для отображения дочерних объектов
+			(элементов коллекции) и селектор для контейнера, в который будет добавлена разметка для дочерних объектов.
+			
+			При создании экземпляра представления
+			объект с данными (Backbone.Collection) нужно поместить в поле <code>collection</code>.
+		</p>
+		<pre>
+<strong>// определяем параметры представления</strong>
+var myListView = marionette.CompositeView.extend({
+	template: _.template('&lt;h1>Title&lt;/h1>&lt;div id="list">&lt;/div>'),
+	<strong>childView</strong>: myView,
+	<strong>childViewContainer</strong>: '#list'
+});
+<strong>// создаем экземпляр представления</strong>
+var view = new myListView({ <strong>collection</strong>: myCollection });
+...
+</pre>
+		<p>
+			Шаблон - это строка, содержащая HTML разметку для отображения объекта с данными. Для формирования
+			разметки по шаблону используется движок шаблонов из библиотеки 
+			<a href="http://underscorejs.org/#template" target="_blank">underscore.js</a>.
+			Места для вставки значений полей объекта обозначаются конструкцией <code>&lt;%= fieldName %></code>,
+			где <em>fieldName</em> - это название поля объекта. Если необходимо, чтобы при выводе значения поля
+			экранировались символы HTML, используйте конструкцию вида <code>&lt;<strong>%-</strong> fieldName %></code>.
+		</p>
+		<pre>
+var data = { title: 'Test', content: '&lt;p>This is content.&lt;/p>'}
+
+var t1 = _.template('<%= title %>&lt;br /><%= content %>)');	// будет выведено: <strong>Test&lt;br />&lt;p>This is content.&lt;/p></strong>
+
+var t2 = _.template('<%= title %>&lt;br /><%- content %>)');	// будет выведено: <strong>Test&lt;br />&amp;lt;p&amp;gt;This is content.&amp;lt;/p&amp;gt;</strong>
+</pre>
 		<h3>Размещение шаблонов в отдельных файлах</h3>
 		<p>
 			В предыдущем примере мы использовали для отображения данных очень простые шаблоны и они были
