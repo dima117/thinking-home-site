@@ -505,7 +505,7 @@ var MyItemView = marionette.ItemView.extend({
 // представление для отображения коллекции
 var listView = marionette.CompositeView.extend({
 	...
-    childView: MyItemView
+	childView: MyItemView
 });
 
 ...
@@ -515,13 +515,48 @@ view.on(<strong>'childview:delete:item'</strong>, function(<strong>childView</st
 
 	// <strong>this</strong> - родительское представление
 	// <strong>childView</strong> - дочернее представление
-    var name = childView.model.get('name');
-    alert(name + ' deleted!');
+
+	var name = childView.model.get('name');
+	alert(name + ' deleted!');
 });
 </pre>
 		<h2>Запросы к серверу</h2>
 		<p>
+			Как правило, интерфейс запрашивает данные, которые нужно отобразить пользователю, с сервера
+			при помощи отдельного ajax запроса (например, можно вызвать методы плагинов, доступные по
+			протоколу HTTP). Это очень легко сделать средствами jQuery. Т.к. веб-интерфейс загружается
+			с того же сервера, где находится HTTP API плагинов, нужно использовать относительные URL
+			(от корня сайта, т.е. начинающиеся с символа "/").
 		</p>
+		<p>
+			Например, вот таким образом в UI загружается список сценариев:
+		</p>
+		<pre>
+// метод плагина
+[HttpCommand(<strong>"/api/scripts/list"</strong>)]
+public object GetScriptList(HttpRequestParams request)
+{
+	...
+	return list;
+}
+
+---
+
+// вызов метода плагина (на стороне клиента) - метод GET
+$.getJSON(<strong>'/api/scripts/list'</strong>)
+	.done(function (items) {
+		...
+	})
+	.fail(function () {
+		...
+	});
+	
+// пример вызова методом POST с передачей параметров
+$.post(<strong>'/api/scripts/run'</strong>, { scriptId: scriptId })
+	.done(function (items) {
+		...
+	});
+</pre>
 		<h2>Элементы рабочего стола</h2>
 		<p>
 		</p>
