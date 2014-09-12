@@ -234,6 +234,7 @@ define(
 			базовых представлений из библиотеки marionette.js. В функцию <code>extend</code> передается объект,
 			определяющий параметры, которыми будет расширено базовое представление.
 		</p>
+		<h3>Представление для отображения объекта с данными</h3>
 		<p>
 			Для отображения объекта с данными используйте базовое представление 
 			<a target="_blank" href="https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.itemview.md">marionette.ItemView</a>.
@@ -251,6 +252,7 @@ var myView = marionette.ItemView.extend({
 var view = new myView({ <strong>model</strong>: myDataObject });
 ...
 </pre>
+		<h3>Представление для отображения коллекции объектов</h3>
 		<p>
 			Для отображения <em>коллекции</em> объектов используйте базовое представление 
 			<a target="_blank" href="https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.compositeview.md">marionette.CompositeView</a>.
@@ -270,7 +272,68 @@ var myListView = marionette.CompositeView.extend({
 <strong>// создаем экземпляр представления</strong>
 var view = new myListView({ <strong>collection</strong>: myCollection });
 ...
+</pre>		
+		<h3>Макет страницы (layout)</h3>
+		<p>
+			Если страница состоит из нескольких независимых блоков, вы можете создать для каждого из них
+			отдельное представление и отобразить вместе на одной странице с помошью <em>макета страницы</em>
+			(layout view). Внутри layout view вы можете описать несколько <em>областей</em> (region)
+			и отобразить в каждой из них отдельное представление. Например если на странице должен быть список
+			элементов и панель с условиями фильтрации, то вы можете создать отдельное представление
+			для списка, отдельное представление для фильтров и при изменении фильтров обновлять представление 
+			для списка (т.е. обновлять только одну из областей страницы).
+		</p>
+		<p>
+			Для описания <em>макета страницы</em> используйте базовое представление 
+			<a target="_blank" href="https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.layoutview.md">marionette.LayoutView</a>.
+			Для макета страницы, как и для других представлений, нужно задать шаблон отображения.
+			Области для дочерних представлений определяются при помощи параметра <code>regions</code>.
+			В качестве его значения необходимо указать объект, каждое поле котрого будет соответствовать
+			отдельному региону страницы. Название поля - это название региона, а значение поля - строка,
+			задающая селектор для DOM элемента, в котором буде отображаться дочернее представление.
+		</p>
+		<p>
+			Например:
+		</p>
+		<pre>
+<strong>// определяем параметры представления</strong>
+var myLayout = marionette.LayoutView.extend({
+	template: _.template(layoutTemplate),
+	<strong>regions</strong>: {
+		<strong>filter</strong>: '#region-filter',
+		<strong>list</strong>: '#region-list'
+	}
+});
 </pre>
+		<p>
+			Если создать экземпляр описанного нами представления, он будет иметь отдельное поле
+			для каждого региона. Чтобы отобразить внутри региона дочернее представление,
+			необходимо у соответствующего поля макета вызвать метод show и передать в него
+			экземпляр дочернего представления.
+		</p>
+		<pre>
+		
+<strong>// создаем экземпляр layout view и добавляем его на страницу</strong>
+var layoutView = new myLayout();
+application.setContentView(layoutView);
+
+<strong>// создаем экземпляры дочерних представлений</strong>
+var filterView = new myFilterView( ... );
+var listView = new myListView( ... );
+
+<strong>// отображаем дочерние представления на странице</strong>
+layoutView.<strong>filter</strong>.show(filterView);
+layoutView.<strong>list</strong>.show(listView);
+</pre>
+		<p>
+			Обратите внимание, в приведенном примере <code>layoutView.filter</code> и <code>layoutView.list"</code> - это названия регионов. В соответствии
+			с заданными нами параметрами макета страницы, представление <code>filterView</code> будет добавлено в 
+			блок с id = "region-filter" (селектор <code>"#region-filter"</code>), а представление 
+			<code>listView</code> будет 
+			отображаться в блоке с id = "region-list" (селектор <code>"#region-filter"</code>). Вместо селекторов по id
+			можно использовать любые другие (например, по css-классу).
+		</p>
+		<h3>Шаблоны</h3>
 		<p>
 			Шаблон - это строка, содержащая HTML разметку для отображения объекта с данными. Для формирования
 			разметки по шаблону используется движок шаблонов из библиотеки 
@@ -671,6 +734,7 @@ $.post(<strong>'/api/scripts/run'</strong>, { scriptId: scriptId })
 		...
 	});
 </pre>
+		<h3>Размещение кода обращений к серверу в отдельном файле</h3>
 		<h2>Элементы рабочего стола</h2>
 		<p>
 		</p>
