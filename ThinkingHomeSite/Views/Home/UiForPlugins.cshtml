@@ -779,7 +779,7 @@ var obj = $.Deferred();
 			Например:
 		</p>
 		<pre>
-if (obj.state() === "pending")
+if (obj.state() === "resolved")
 {
 	alert('Success!');
 }
@@ -810,10 +810,10 @@ function loadData() {
 	$.getJSON('/api/my-plugin/get-data')
 		.done(function (data) {
 		
-		<strong>// после получения данных с сервера создаем для них модель 
+			<strong>// после получения данных с сервера создаем для них модель 
 			// меняем состояние операции на "завершена успешно"</strong>
 			var model = new backbone.Model(data);
-		<strong>obj.resolve(model);</strong>
+			<strong>obj.resolve(model);</strong>
 		});
 	return obj;
 }
@@ -849,14 +849,14 @@ var module = {
 			
 		query.done(function(data) {
 			
-		<strong>// при успешном завершении ajax запроса отображаем полученные данные на странице</strong> 
+			<strong>// при успешном завершении ajax запроса отображаем полученные данные на странице</strong> 
 			var view = new myView({model: data});
 			application.setContentView(view);
 		});
 		
 		query.fail(function() {
 		   
-		<strong>// при ошибке выводим сообщение "error"</strong>
+			<strong>// при ошибке выводим сообщение "error"</strong>
 			alert("error");
 		});
 	}
