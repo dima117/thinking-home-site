@@ -152,6 +152,7 @@
     <Content Include="Content\images\script-list.png" />
     <Content Include="Content\images\section-in-list.png" />
     <Content Include="Content\images\start-page-large.png" />
+    <Content Include="Content\images\start-page-scheme.png" />
     <Content Include="Content\images\start-page-small.png" />
     <Content Include="Content\images\system-pages.png" />
     <Content Include="Content\site.css" />
