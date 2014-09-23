@@ -20,11 +20,11 @@
 		<div class="row">
 			<div class="col-md-6">
 				<img class="ths-image img-responsive" src="~/Content/images/common-pages.png"
-					alt="Список пользовательских разделов" title="Список пользовательских разделов" />
+					 alt="Список пользовательских разделов" title="Список пользовательских разделов" />
 			</div>
 			<div class="col-md-6">
 				<img class="ths-image img-responsive" src="~/Content/images/system-pages.png"
-					alt="Список системных разделов" title="Список системных разделов" />
+					 alt="Список системных разделов" title="Список системных разделов" />
 			</div>
 		</div>
 		<p>
@@ -37,11 +37,11 @@
 		<div class="row">
 			<div class="col-md-3">
 				<img class="ths-image img-responsive" src="~/Content/images/start-page-small.png"
-					alt="Стартовая страница на маленьком экране" title="Стартовая страница на маленьком экране" />
+					 alt="Стартовая страница на маленьком экране" title="Стартовая страница на маленьком экране" />
 			</div>
 			<div class="col-md-9">
 				<img class="ths-image img-responsive" src="~/Content/images/start-page-large.png"
-					alt="Стартовая страница на большом экране" title="Стартовая страница на большом экране" />
+					 alt="Стартовая страница на большом экране" title="Стартовая страница на большом экране" />
 			</div>
 		</div>
 		<p>
@@ -68,7 +68,7 @@ define(
 	['app', 'marionette', 'backbone', 'underscore'],
 	function (application, marionette, backbone, _) {
 		var module = {
-			<strong>start</strong>: function () {
+		<strong>start</strong>: function () {
 				alert("module started!");
 			}
 		};
@@ -80,7 +80,8 @@ define(
 		</p>
 		<ol>
 			<li>Массив зависимостей - содержит имена модулей, от котрых зависит ваш модуль.</li>
-			<li>Функция инициализации - будет вызвана один раз, при
+			<li>
+				Функция инициализации - будет вызвана один раз, при
 				загрузке вашего модуля. Она должна возвращать объект, представляющий
 				ваш модуль.
 			</li>
@@ -198,7 +199,6 @@ start: function () {
 define(
 	['app', 'marionette', 'backbone', 'underscore'],
 	function (application, marionette, backbone, _) {
-
 		<strong>// описываем параметры представлений для коллекции и для ее отдельного элемента</strong>
 		var peopleView = marionette.ItemView.extend({
 				template: _.template('<%= name %> (<%= id %>)')			<strong>// шаблон отображения</strong>
@@ -212,13 +212,13 @@ define(
 		
 		
 		var module = {
-			<strong>start</strong>: function () {
+		<strong>start</strong>: function () {
 				...
 		
-				<strong>// создаем экземпляр представления и передаем туда данные (модель Backbone.Collection)</strong>
+		<strong>// создаем экземпляр представления и передаем туда данные (модель Backbone.Collection)</strong>
 				var view = new peoplesView({ collection: model });
 	
-				<strong>// отображаем представление на странице</strong>
+		<strong>// отображаем представление на странице</strong>
 				application.setContentView(view);
 			}
 		};
@@ -264,8 +264,8 @@ var view = new myView({ <strong>model</strong>: myDataObject });
 <strong>// определяем параметры представления</strong>
 var myListView = marionette.CompositeView.extend({
 	template: _.template('&lt;h1>Title&lt;/h1>&lt;div id="list">&lt;/div>'),
-	<strong>childView</strong>: myView,
-	<strong>childViewContainer</strong>: '#list'
+		<strong>childView</strong>: myView,
+		<strong>childViewContainer</strong>: '#list'
 });
 <strong>// создаем экземпляр представления</strong>
 var view = new myListView({ <strong>collection</strong>: myCollection });
@@ -298,8 +298,8 @@ var view = new myListView({ <strong>collection</strong>: myCollection });
 var myLayout = marionette.LayoutView.extend({
 	template: _.template(layoutTemplate),
 		<strong>regions</strong>: {
-			<strong>filter</strong>: '#region-filter',
-			<strong>list</strong>: '#region-list'
+		<strong>filter</strong>: '#region-filter',
+		<strong>list</strong>: '#region-list'
 	}
 });
 </pre>
@@ -313,11 +313,9 @@ var myLayout = marionette.LayoutView.extend({
 <strong>// создаем экземпляр layout view и добавляем его на страницу</strong>
 var layoutView = new myLayout();
 application.setContentView(layoutView);
-
 <strong>// создаем экземпляры дочерних представлений</strong>
 var filterView = new myFilterView( ... );
 var listView = new myListView( ... );
-
 <strong>// отображаем дочерние представления на странице</strong>
 layoutView.<strong>filter</strong>.show(filterView);
 layoutView.<strong>list</strong>.show(listView);
@@ -549,7 +547,7 @@ define(
 [CssResource(
 	"/webapp/weather/css/weather-icons.min.css", 
 	"ThinkingHome.Plugins.Weather.Resources.css.weather-icons.min.css", 
-	<strong>AutoLoad = true</strong>)]
+		<strong>AutoLoad = true</strong>)]
 </pre>
 		<h2 id="events">События</h2>
 		<p>
@@ -625,7 +623,7 @@ var MyView = marionette.ItemView.extend({
 	triggers: {
 		'change #input-bg-color': '<strong>color:changed</strong>'
 	},
-	<strong>onColorChanged</strong>: function(model: myObject){
+		<strong>onColorChanged</strong>: function(model: myObject){
 		var newColor = this.$('#input-bg-color').val();
 		this.model.set('color', newColor);
 	}
@@ -634,7 +632,8 @@ var MyView = marionette.ItemView.extend({
 		<p>
 			По большому счету, указанные способы назначения обработчиков событий отличаются только местом, где
 			описана функция-обработчик: в первом случае она описана рядом с кодом, использующим представление,
-			а во втором случае - в параметрах представления. Обработчики событий, связанных с <em>операциями над
+			а во втором случае - в параметрах представления. Обработчики событий, связанных с <em>
+				операциями над
 				элемнетами представления
 			</em>лучше размещать в параметрах представления, а обработчики, связанные
 			с <em>предметной областью</em> вашего плагина лучше размещать снаружи. Например, вывод подсказки при
@@ -808,10 +807,10 @@ function loadData() {
 	$.getJSON('/api/my-plugin/get-data')
 		.done(function (data) {
 		
-			<strong>// после получения данных с сервера создаем для них модель 
+		<strong>// после получения данных с сервера создаем для них модель 
 			// меняем состояние операции на "завершена успешно"</strong>
 			var model = new backbone.Model(data);
-			<strong>obj.resolve(model);</strong>
+		<strong>obj.resolve(model);</strong>
 		});
 	return obj;
 }
@@ -847,14 +846,14 @@ var module = {
 			
 		query.done(function(data) {
 			
-			<strong>// при успешном завершении ajax запроса отображаем полученные данные на странице</strong> 
+		<strong>// при успешном завершении ajax запроса отображаем полученные данные на странице</strong> 
 			var view = new myView({model: data});
 			application.setContentView(view);
 		});
 		
 		query.fail(function() {
 		   
-			<strong>// при ошибке выводим сообщение "error"</strong>
+		<strong>// при ошибке выводим сообщение "error"</strong>
 			alert("error");
 		});
 	}
@@ -918,22 +917,22 @@ define(
 	function (application, backbone, $) {
 		var api = {
 			
-			<strong>// пример запроса без параметров</strong>
+		<strong>// пример запроса без параметров</strong>
 			loadData: function(){
 								
-				<strong>// пример обращения к серверу</strong>				
+		<strong>// пример обращения к серверу</strong>				
 				var obj = $.Deferred();
 				$.getJSON('/api/my-plugin/get-data')
 					.done(function (data) {
 						
 						var model = new backbone.Model(data);
-						<strong>obj.resolve(model);</strong>
+		<strong>obj.resolve(model);</strong>
 					});
 	
 				return obj;
 			},
 			
-			<strong>// пример запроса с параметрами</strong>
+		<strong>// пример запроса с параметрами</strong>
 			saveObject: function(obj){	
 				...
 			}
@@ -953,7 +952,7 @@ define(
 		var module = {
 			start: function () {
 				
-				<strong>var q = queries.loadData();</strong>
+		<strong>var q = queries.loadData();</strong>
 				
 				q.done(function(<strong>data</strong>) {
 			
@@ -963,16 +962,14 @@ define(
 					view.on('save:my:object', function(){
 					
 						var model = this.model;		// получаем модель из представления
-						<strong>queries.saveObject(model);</strong>	// запускаем запрос к серверу
+		<strong>queries.saveObject(model);</strong>	// запускаем запрос к серверу
 					})
-
 					...
 					// отображаем представление на странице
 					application.setContentView(view);
 				});
 			}
 		};
-
 		return module;
 	});
 </pre>
@@ -988,7 +985,7 @@ define(
 		<div class="row">
 			<div class="col-md-12">
 				<img class="ths-image img-responsive" src="~/Content/images/start-page-scheme.png"
-					alt="Стартовая страница" title="Стартовая страница" />
+					 alt="Стартовая страница" title="Стартовая страница" />
 			</div>
 		</div>
 		<p>
@@ -1000,7 +997,7 @@ define(
 		</p>
 		<p>
 			Плагины могут добавлять в систему собственные типы элементов рабочего стола. Например, тип
-			"запуск сценария" реализован в плагине <em>ThinkingHome.Plugins.Scripts</em> (а если этот плагин 
+			"запуск сценария" реализован в плагине <em>ThinkingHome.Plugins.Scripts</em> (а если этот плагин
 			удалить, элементы "запуск сценария" не будут отображаться).
 		</p>
 		<p>
@@ -1023,7 +1020,6 @@ define(
 		<pre>
 using ThinkingHome.Plugins.WebUI.Tiles;
 ...
-
 [<strong>Tile</strong>]
 public class ScriptsTileDefinition : <strong>TileDefinition</strong>
 {
@@ -1037,9 +1033,9 @@ public class ScriptsTileDefinition : <strong>TileDefinition</strong>
 			Метод <em>FillModel</em> Вызывается непосредственно перед отображением элемента пользователю.
 			В качестве входных параметров он получает <em>модель элемента</em> и его <em>параметры</em>.
 		</p>
-		<p>	
-			<em>Модель</em> элемента рабочего стола (параметр <code>model</code>) - это объект, описывающий его 
-			основные свойства. В методе <code>FillModel</code> необходимо заполнить этот объект нужной 
+		<p>
+			<em>Модель</em> элемента рабочего стола (параметр <code>model</code>) - это объект, описывающий его
+			основные свойства. В методе <code>FillModel</code> необходимо заполнить этот объект нужной
 			информацией. Например, с помощью свойств модели можно задать заголовок и содержание элемента.
 		</p>
 		<p>
@@ -1057,7 +1053,6 @@ public override void FillModel(TileModel model, dynamic options)
 	try
 	{
 		UserScript script = GetScript(options.id);
-
 		model.title = "Run script";
 		model.content = script.Name;
 	}
@@ -1068,12 +1063,42 @@ public override void FillModel(TileModel model, dynamic options)
 }
 </pre>
 		<h3>Добавление на рабочий стол</h3>
+		<p>
+			Для добавления элемента на рабочий стол нужно вызвать метод <code>public void AddTile&lt;TDef>(object options)</code>
+			плагина <code>ThinkingHome.Plugins.WebUI.WebUiTilesPlugin</code>, указать тип элемента управления и его параметры.
+			Пример, приведенный ниже, показывает, как добавить на рабочий стол элемент типа <code>TestTileDefinition</code>
+			с параметром <code>xxx = 123</code>.
+		</p>
+		<pre>
+using ThinkingHome.Plugins.WebUI;
+...
+<strong>object</strong> options = new { <strong>xxx = 123</strong> };
+Context.GetPlugin&lt;<strong>WebUiTilesPlugin</strong>>()
+	.AddTile&lt;<strong>TestTileDefinition</strong>>(options);
+</pre>
+		<p>
+			На клиенте также есть удобная возможность добавления элементов рабочего стола:
+		</p>
+		<pre>
+define(
+	[<strong>'app'</strong>, 'application/sections/list-model', 'application/sections/list-view'],
+	function (<strong>application</strong>) {
+		...
+		var data = { xxx: 123 }
+		application.addTile(<strong>'ThinkingHome.Plugins.Tmp.Tiles.TestTileDefinition'</strong>, data);
+	});
+</pre>
+		<p>
+			Обратите внимание, объект <code>application</code>, у которого мы вызываем метод <code>addTile</code> -
+			это основной модуль приложения (в списке зависимостей имеет название <code>'app'</code>).
+		</p>
 		<h3>Иконки</h3>
 		<p>
 		</p>
 		<h3>Действия</h3>
 		<p>
 		</p>
+		<h3>Переопределение типа элементов дял разделов</h3>
 		<h2 id="modules">Модули, подключенные по умолчанию</h2>
 		<p>
 		</p>
