@@ -1062,7 +1062,14 @@ public override void FillModel(TileModel model, dynamic options)
 	}
 }
 </pre>
+		<h3>Иконки и стили отображения</h3>
+		<p>
+		</p>
+		<h3>Действия</h3>
+		<p>
+		</p>
 		<h3>Добавление на рабочий стол</h3>
+		<h4>На стороне сервера</h4>
 		<p>
 			Для добавления элемента на рабочий стол нужно вызвать метод <code>public void AddTile&lt;TDef>(object options)</code>
 			плагина <code>ThinkingHome.Plugins.WebUI.WebUiTilesPlugin</code>, указать тип элемента управления и его параметры.
@@ -1076,6 +1083,7 @@ using ThinkingHome.Plugins.WebUI;
 Context.GetPlugin&lt;<strong>WebUiTilesPlugin</strong>>()
 	.AddTile&lt;<strong>TestTileDefinition</strong>>(options);
 </pre>
+		<h4>На стороне клиента</h4>
 		<p>
 			На клиенте также есть удобная возможность добавления элементов рабочего стола:
 		</p>
@@ -1092,13 +1100,68 @@ define(
 			Обратите внимание, объект <code>application</code>, у которого мы вызываем метод <code>addTile</code> -
 			это основной модуль приложения (в списке зависимостей имеет название <code>'app'</code>).
 		</p>
-		<h3>Иконки</h3>
+		<h4>UI для добавения элементов рабочего стола</h4>
 		<p>
+			Если элемент рабочего стола представляет объект предметной области какого-либо плагина,
+			кнопку добавления элемента на рабочий стол логично разместить в том месте, где в UI отображается
+			соответствующий объект предметной области. Например, в плагине "прогноз погоды" есть список городов и кнопка
+			добавления элемента рабочего стола отображается рядом с названием города.
 		</p>
-		<h3>Действия</h3>
+		<div class="row">
+			<div class="col-md-12">
+				<img class="ths-image img-responsive" src="~/Content/images/btn-add-tile-weather.png"
+					 alt="Размещение кнопки добавления элемента рабочего стола" title="Размещение кнопки добавления элемента рабочего стола" />
+			</div>
+		</div>
 		<p>
+			Еще пример - плагин WebUI. Это один из базовых плагинов, который в т.ч. отвечает за отображение навигационного
+			меню и списков разделов. Этот плагин реализует элемент рабочего стола, представляющий ссылку на какой-либо раздел.
+			Соответственно, кнопка добавления такого элемента находится в списке разделов рядом с названием каждого элемента списка.
 		</p>
-		<h3>Переопределение типа элементов дял разделов</h3>
+		<div class="row">
+			<div class="col-md-12">
+				<img class="ths-image img-responsive" src="~/Content/images/btn-add-tile-sections.png"
+					 alt="Размещение кнопки добавления элемента рабочего стола" title="Размещение кнопки добавления элемента рабочего стола" />
+			</div>
+		</div>
+		<p>
+			Как видите, для кнопки добавления элемента рабочего стола везде используется специальная пиктограмма -
+			<span class="fa fa-external-link-square th-no-text-decoration js-btn-add-tile"></span>. Конечно, вы можете
+			сделать любую другую кнопку, но мы рекомендуем всегда использовать эту пиктограмму - так пользователь
+			сразу будет понимать, что приозойдет, если по ней кликнуть мышью. Чтобы добавить такую пиктограмму на страницу,
+			используйте следующую разметку:
+		</p>
+		<pre>
+&lt;!-- пиктограмма добавления элемента рабочего стола -->
+&lt;a href="#" title="Add tile to start page" class="fa fa-external-link-square th-no-text-decoration <strong>js-btn-add-tile</strong>">&lt;/a>
+
+&lt;!-- если нужно отображать как верхний индекс, добавьте тэг &lt;sup> -->
+<strong>&lt;sup></strong>&lt;a href="#" title="Add tile to start page" class="fa fa-external-link-square th-no-text-decoration <strong>js-btn-add-tile</strong>">&lt;/a><strong>&lt;/sup></strong>
+</pre>
+		<p>
+			Соответственно, чтобы кнопка выполняла действия, добавьте в представление соответствующее событие, а также его обработчик, вызывающий
+			функцию <code>application.addTile</code>.
+		</p>
+		<pre>
+// добавляем событие
+var myView = marionette.ItemView.extend({
+	...
+	triggers: {
+		<strong>'click .js-btn-add-tile': 'my-plugin:add-tile'</strong>
+	}
+}
+
+// добавляем обработчик события
+var view = new myListView({ collection: list });
+view.on(<strong>'childview:my-plugin:add-tile'</strong>, function(childView){ 
+
+	var parameter1 = childView.model.get('field1');
+	var parameter2 = childView.model.get('field2');
+	
+	var data = { xxx: parameter1, yyy: parameter2 };
+	<strong>application.addTile</strong>('ThinkingHome.Plugins.Tmp.Tiles.TestTileDefinition', data);
+});
+</pre>
 		<h2 id="modules">Модули, подключенные по умолчанию</h2>
 		<p>
 		</p>
