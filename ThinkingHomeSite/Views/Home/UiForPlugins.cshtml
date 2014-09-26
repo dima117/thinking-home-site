@@ -1055,6 +1055,7 @@ public override void FillModel(TileModel model, dynamic options)
 		UserScript script = GetScript(options.id);
 		model.title = "Run script";
 		model.content = script.Name;
+		model.wide = false;
 	}
 	catch (Exception ex)
 	{
@@ -1062,9 +1063,43 @@ public override void FillModel(TileModel model, dynamic options)
 	}
 }
 </pre>
+		<p>
+			В приведенном примере заполняются поля модели:
+		</p>
+		<ul>
+			<li>
+				<em>title</em> - заголовок элемента - отображается в левом нижнем ушлу жирным текстом; если текст не
+				помещается по ширине, он будет обрезан по границе элемента
+			</li>
+			<li>
+				<em>content</em> - содержание элемента - отображается в левом верхнем углу; если текст не помещается по ширине,
+				он будет перенесен на следующую строку; если в тексте содержатся переносы строки (<code>"\r\n"</code>),
+				то на странице в этом месте тоже будет перенос строки;
+			</li>
+			<li>
+				<em>wide</em> - с помощью этого поля можно задать размер элемента: если его значение == <code>true</code>,
+				то при отображении на странице ширина элемента будет в два раза больше стандартной.
+			</li>
+		</ul>
+		<div class="row">
+			<div class="col-md-12">
+				<img class="ths-image img-responsive" src="~/Content/images/start-page-wide-tile.png"
+					 alt="Пример отображения элемента двойного размера" title="Пример отображения элемента двойного размера" />
+			</div>
+		</div>
 		<h3>Иконки и стили отображения</h3>
 		<p>
+			При заполнении модели элемента рабочего стола вы можете указать значение поля <code>className</code>. При отображение
+			элемента значение этого поля будет отрендерено как атрибут <code>class</code>. Например, вы можете использовать
+			<a href="http://getbootstrap.com/css/#buttons" target="_blank">классы кнопок Twitter Bootstrap</a>, чтобы задать
+			цвет элементов рабочего стола:
 		</p>
+		<div class="row">
+			<div class="col-md-12">
+				<img class="ths-image img-responsive" src="~/Content/images/start-page-tile-classes.png"
+					 alt="Css классы элементов рабочего стола" title="Css классы элементов рабочего стола" />
+			</div>
+		</div>
 		<h3>Действия</h3>
 		<p>
 		</p>
@@ -1126,7 +1161,7 @@ define(
 		</div>
 		<p>
 			Как видите, для кнопки добавления элемента рабочего стола везде используется специальная пиктограмма -
-			<span class="fa fa-external-link-square th-no-text-decoration js-btn-add-tile"></span>. Конечно, вы можете
+			<span class="fa fa-external-link-square"></span>. Конечно, вы можете
 			сделать любую другую кнопку, но мы рекомендуем всегда использовать эту пиктограмму - так пользователь
 			сразу будет понимать, что приозойдет, если по ней кликнуть мышью. Чтобы добавить такую пиктограмму на страницу,
 			используйте следующую разметку:

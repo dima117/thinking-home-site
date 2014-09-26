@@ -156,6 +156,8 @@
     <Content Include="Content\images\start-page-large.png" />
     <Content Include="Content\images\start-page-scheme.png" />
     <Content Include="Content\images\start-page-small.png" />
+    <Content Include="Content\images\start-page-tile-classes.png" />
+    <Content Include="Content\images\start-page-wide-tile.png" />
     <Content Include="Content\images\system-pages.png" />
     <Content Include="Content\site.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
