@@ -1087,19 +1087,93 @@ public override void FillModel(TileModel model, dynamic options)
 					 alt="Пример отображения элемента двойного размера" title="Пример отображения элемента двойного размера" />
 			</div>
 		</div>
-		<h3>Иконки и стили отображения</h3>
+		<h3>Стили отображения элемента</h3>
 		<p>
-			При заполнении модели элемента рабочего стола вы можете указать значение поля <code>className</code>. При отображение
-			элемента значение этого поля будет отрендерено как атрибут <code>class</code>. Например, вы можете использовать
+			При заполнении модели элемента рабочего стола вы можете указать значение поля <code>className</code>. При отображении
+			элемента значение поля <code>className</code> будет отрендерено как атрибут <code>class</code>. Например, вы можете использовать
 			<a href="http://getbootstrap.com/css/#buttons" target="_blank">классы кнопок Twitter Bootstrap</a>, чтобы задать
 			цвет элементов рабочего стола:
 		</p>
 		<div class="row">
 			<div class="col-md-12">
 				<img class="ths-image img-responsive" src="~/Content/images/start-page-tile-classes.png"
-					 alt="Css классы элементов рабочего стола" title="Css классы элементов рабочего стола" />
+				     alt="Css классы элементов рабочего стола" title="Css классы элементов рабочего стола" />
 			</div>
 		</div>
+		<p>
+			Обратите внимание, если значение поля <code>className</code> не было установлено, элемент рабочего
+			стола будет помечен классом <strong>btn-primary</strong>. Этот класс описывает цвета границы, 
+			фона и текста элемента рабочего стола. Примерно так:
+		</p>
+		<pre>
+.btn-primary {
+    background-color: #428bca;
+    border-color: #357ebd;
+    color: #fff;
+}
+</pre>
+		<p>
+			Если вы хотите использовать собственные классы, css класс <code>btn-primary</code>
+			по умолчанию не будет добавлен (соответственно, элемент будет иметь фон белого цвета и черный текст).
+			Чтобы все элементы выглядели единообразно, при использовании собственных классов, укажите дополнительно
+			класс <code>btn-primary</code> или один из классов кнопок Twitter Bootstrap, приведенных выше 
+			(<code>btn-success</code>, <code>btn-info</code>, <code>btn-warning</code>, <code>btn-danger</code>).
+			Также можно определить цвета элемента внутри собственного класса.
+		</p>
+		<pre>
+public override void FillModel(TileModel model, dynamic options)
+{
+	...
+	
+	// классы элемента разделяются пробелом
+	model.className = "<strong>btn-primary my-super-css-class</strong>";
+}
+</pre>
+		<h3>Пиктограммы</h3>
+		<p>
+			С помощью css классов можно также установить <em>пиктограму</em> (icon). По умолчанию 
+			доступен шрифт <a href="http://fortawesome.github.io/Font-Awesome/" target="_blank">Font Awesome</a>, 
+			содержащий огромное количество пиктограмм. 
+			Для того, чтобы задать пиктограмму элемента рабочего стола, укажите для него css классы 
+			<code>th-tile-icon</code>, <code>th-tile-icon-fa</code> и класс нужной пиктограммы (например
+			<code>fa-rocket</code> &mdash; <span class="fa fa-rocket"></span>).
+		</p>
+		<pre>
+public override void FillModel(TileModel model, dynamic options)
+{
+	...
+
+	model.className = "btn-primary th-tile-icon th-tile-icon-fa fa-rocket";
+}
+</pre>
+		<p>
+			Класс <code>th-tile-icon</code> отвечает за размеры и позиционирование пиктограммы.
+			Класс <code>th-tile-icon-fa</code> указывает, что для отображения пиктограммы следует использовать
+			шрифт Font Awesome. Класс <code>fa-rocket</code> - пример класса, указывающего, какую именно 
+			пиктограмму следует отобразить (
+			<a href="http://fortawesome.github.io/Font-Awesome/icons/" target="_blank">полный список пиктограмм Font Awesome</a>).
+		</p>
+		<p>
+			Если вы хотите использовать собственный шрифт, опишите собственный класс для него и задайте
+			шрифт псевдоэлемента <code>:before</code> по аналогии с классом <code>th-tile-icon-fa</code>:
+		</p>
+		<pre>
+.th-tile-icon-fa:before {
+	font-family: FontAwesome;
+}
+</pre>
+		<p>
+			Также опишите классы для отдельных пиктограмм, определяющие с помощью css свойства 
+			<code>content</code> нужный символ шрифта для отображения внутри псевдоэлемента <code>:before</code>:
+		</p>
+		<pre>
+.fa-rocket:before {
+  content: "\f135";
+}
+</pre>
+		<p>
+			Не забудьте поместить файл со стилями и файлы шрифтов в ресурсы плагина и задать URL для обращения к ним.
+		</p>
 		<h3>Действия</h3>
 		<p>
 		</p>
