@@ -20,11 +20,11 @@
 		<div class="row">
 			<div class="col-md-6">
 				<img class="ths-image img-responsive" src="~/Content/images/common-pages.png"
-					 alt="Список пользовательских разделов" title="Список пользовательских разделов" />
+					alt="Список пользовательских разделов" title="Список пользовательских разделов" />
 			</div>
 			<div class="col-md-6">
 				<img class="ths-image img-responsive" src="~/Content/images/system-pages.png"
-					 alt="Список системных разделов" title="Список системных разделов" />
+					alt="Список системных разделов" title="Список системных разделов" />
 			</div>
 		</div>
 		<p>
@@ -37,11 +37,11 @@
 		<div class="row">
 			<div class="col-md-3">
 				<img class="ths-image img-responsive" src="~/Content/images/start-page-small.png"
-					 alt="Стартовая страница на маленьком экране" title="Стартовая страница на маленьком экране" />
+					alt="Стартовая страница на маленьком экране" title="Стартовая страница на маленьком экране" />
 			</div>
 			<div class="col-md-9">
 				<img class="ths-image img-responsive" src="~/Content/images/start-page-large.png"
-					 alt="Стартовая страница на большом экране" title="Стартовая страница на большом экране" />
+					alt="Стартовая страница на большом экране" title="Стартовая страница на большом экране" />
 			</div>
 		</div>
 		<p>
@@ -80,8 +80,7 @@ define(
 		</p>
 		<ol>
 			<li>Массив зависимостей - содержит имена модулей, от котрых зависит ваш модуль.</li>
-			<li>
-				Функция инициализации - будет вызвана один раз, при
+			<li>Функция инициализации - будет вызвана один раз, при
 				загрузке вашего модуля. Она должна возвращать объект, представляющий
 				ваш модуль.
 			</li>
@@ -632,8 +631,7 @@ var MyView = marionette.ItemView.extend({
 		<p>
 			По большому счету, указанные способы назначения обработчиков событий отличаются только местом, где
 			описана функция-обработчик: в первом случае она описана рядом с кодом, использующим представление,
-			а во втором случае - в параметрах представления. Обработчики событий, связанных с <em>
-				операциями над
+			а во втором случае - в параметрах представления. Обработчики событий, связанных с <em>операциями над
 				элемнетами представления
 			</em>лучше размещать в параметрах представления, а обработчики, связанные
 			с <em>предметной областью</em> вашего плагина лучше размещать снаружи. Например, вывод подсказки при
@@ -985,7 +983,7 @@ define(
 		<div class="row">
 			<div class="col-md-12">
 				<img class="ths-image img-responsive" src="~/Content/images/start-page-scheme.png"
-					 alt="Стартовая страница" title="Стартовая страница" />
+					alt="Стартовая страница" title="Стартовая страница" />
 			</div>
 		</div>
 		<p>
@@ -1084,9 +1082,20 @@ public override void FillModel(TileModel model, dynamic options)
 		<div class="row">
 			<div class="col-md-12">
 				<img class="ths-image img-responsive" src="~/Content/images/start-page-wide-tile.png"
-					 alt="Пример отображения элемента двойного размера" title="Пример отображения элемента двойного размера" />
+					alt="Пример отображения элемента двойного размера" title="Пример отображения элемента двойного размера" />
 			</div>
 		</div>
+		<p>
+			Внутри классов элементов рабочего стола можно пользоваться свойствами базового класса 
+			<code>TileDefinition</code>(по аналогии со свойствами базового класса плагинов):
+		</p>
+		<ul>
+			<li><code>protected Logger Logger { get; }</code> - запись сообщений в лог;</li>
+			<li>
+				<code>protected IServiceContext Context { get; }</code> - контекст приложения, с помощью которого 
+				можно обращаться к плагинам и системной БД.
+			</li>
+		</ul>
 		<h3>Стили отображения элемента</h3>
 		<p>
 			При заполнении модели элемента рабочего стола вы можете указать значение поля <code>className</code>. При отображении
@@ -1097,7 +1106,7 @@ public override void FillModel(TileModel model, dynamic options)
 		<div class="row">
 			<div class="col-md-12">
 				<img class="ths-image img-responsive" src="~/Content/images/start-page-tile-classes.png"
-				     alt="Css классы элементов рабочего стола" title="Css классы элементов рабочего стола" />
+					alt="Css классы элементов рабочего стола" title="Css классы элементов рабочего стола" />
 			</div>
 		</div>
 		<p>
@@ -1174,10 +1183,69 @@ public override void FillModel(TileModel model, dynamic options)
 		<p>
 			Не забудьте поместить файл со стилями и файлы шрифтов в ресурсы плагина и задать URL для обращения к ним.
 		</p>
-		<h3>Действия</h3>
+		<h3>Обработка клика мышью</h3>
 		<p>
+			Если пользователь кликнет мышью на элемент рабочего стола, в зависимости от типа элемента, может быть
+			выполнено какое-нибудь действие или переход в некоторый раздел.
 		</p>
-		<h3>Добавление на рабочий стол</h3>
+		<h4>Выполнение действий на стороне сервера</h4>
+		<p>
+			Для того, чтобы задать действия, которые будут выполнены при клике на элемент рабочего стола,
+			необходимо переопределить метод <code>string ExecuteAction(object options)</code>. 
+			При клике мышью на элементе будет выполнен запрос к серверу, где для нужного элемента
+			будет вызван метод <code>ExecuteAction</code>. Входной параметр <code><strong>object</strong> options</code>
+			будет содержать параметры элемента (точно такой же объект, который был передан в метод 
+			<code>FillModel</code> при формировании контента для него).
+		</p>
+		<p>
+			В теле метода <code>ExecuteAction</code> можно писать любые необходимые действия. Например,
+			вот так выглядит метод <code>ExecuteAction</code> элемента "запуска сценария":
+		</p>
+		<pre>
+public override string ExecuteAction(object options)
+{
+	try
+	{
+		// позучаем из БД информацию о сценарии
+		UserScript script = GetScript(options.id);
+		
+		// выполняем сценарий при помощи метода ExecuteScript плагина ScriptsPlugin
+		Context.GetPlugin&lt;ScriptsPlugin>().ExecuteScript(script);
+		return null;
+	}
+	catch (Exception ex)
+	{
+		return ex.Message;
+	}
+}
+</pre>
+		<p>
+			Метод <code>ExecuteAction</code> возвращает строковое значение. Если оно содержит текст
+			(не является <code>null</code> или пустой строкой), то этот текст будет отображен пользователю
+			во всплывающем окне после окончания выполнения заданных действий.
+		</p>
+		<h4>Переход при клике в заданный раздел</h4>
+		<p>
+			Для того, чтобы перейти в заданный раздел, необходимо внутри метода <code>FillModel</code>
+			задать URL нужного раздела. Например, при клике на элемент "будильники" происходит переход
+			на список будильников:
+		</p>
+		<pre>
+public class AlarmClockTileDefinition : TileDefinition
+{
+	public override void FillModel(TileModel model, dynamic options)
+	{
+		model.title = "Alarm clock";
+		<strong>model.url= "webapp/alarm-clock/list";</strong> 
+		...
+	}
+}
+</pre>
+		<p>
+			Обратите внимание: если в методе <code>FillModel</code> был указан URL раздела, то серверный
+			метод <code>ExecuteAction</code> не будет вызван, даже если он переопределен в классе элемента.
+		</p>
+		<h3>Добавление элементов на рабочий стол</h3>
 		<h4>На стороне сервера</h4>
 		<p>
 			Для добавления элемента на рабочий стол нужно вызвать метод <code>public void AddTile&lt;TDef>(object options)</code>
@@ -1219,7 +1287,7 @@ define(
 		<div class="row">
 			<div class="col-md-12">
 				<img class="ths-image img-responsive" src="~/Content/images/btn-add-tile-weather.png"
-					 alt="Размещение кнопки добавления элемента рабочего стола" title="Размещение кнопки добавления элемента рабочего стола" />
+					alt="Размещение кнопки добавления элемента рабочего стола" title="Размещение кнопки добавления элемента рабочего стола" />
 			</div>
 		</div>
 		<p>
@@ -1230,7 +1298,7 @@ define(
 		<div class="row">
 			<div class="col-md-12">
 				<img class="ths-image img-responsive" src="~/Content/images/btn-add-tile-sections.png"
-					 alt="Размещение кнопки добавления элемента рабочего стола" title="Размещение кнопки добавления элемента рабочего стола" />
+					alt="Размещение кнопки добавления элемента рабочего стола" title="Размещение кнопки добавления элемента рабочего стола" />
 			</div>
 		</div>
 		<p>
@@ -1271,6 +1339,41 @@ view.on(<strong>'childview:my-plugin:add-tile'</strong>, function(childView){
 	<strong>application.addTile</strong>('ThinkingHome.Plugins.Tmp.Tiles.TestTileDefinition', data);
 });
 </pre>
+		<h4>Переопределение стандартных ссылок на разделы</h4>
+		<p>
+			Как вы видели, веб интерфейс содержит два стандартных списка разделов: "пользовательские разделы"
+			и "системные разделы" и любой элемент списка разделов можно вынести на рабочий стол.
+			По умолчанию добавляется элемент <code>AppSectionShortcutTileDefinition</code>
+			(реализован в плагине <em>ThinkingHome.Plugins.WebUI</em>) который содержит название раздела и 
+			пиктограму <code>fa-arrow-circle-right</code> (
+			<span class="fa fa-arrow-circle-right"></span>). При клике на него происходит переход в 
+			соответствующий раздел.
+		</p>
+		<p>
+			Вы можете указать для собственных разделов любой другой тип элемента рабочего стола,
+			который будет использоваться вместо стандартного элемента <code>AppSectionShortcutTileDefinition</code>.
+			Сделать это можно при помощи параметра <code>TileDefinitionKey</code> атрибута <code>[AppSection]</code>.
+		</p>
+		<p>
+			Например, плагин "будильники" использует для отображения ссылки на рабочем столе
+			собственный тип элемента <em>ThinkingHome.Plugins.AlarmClock.AlarmClockTileDefinition</em>,
+			отображающий список ближайших будильников и пиктограмму с колокольчиком.
+		</p>
+		<pre>
+[AppSection("Alarms", SectionType.Common, 
+	"/webapp/alarm-clock/list.js", 
+	"ThinkingHome.Plugins.AlarmClock.Resources.alarm-list.js",
+	<strong>TileDefinitionKey = "ThinkingHome.Plugins.AlarmClock.AlarmClockTileDefinition"</strong>)]
+</pre>
+		<p>
+			Результат выглядит примерно так:
+		</p>
+		<div class="row">
+			<div class="col-md-12">
+				<img class="ths-image img-responsive" src="~/Content/images/start-page-shortcuts.png"
+					alt="Ссылки на разделы на рабочем столе" title="Ссылки на разделы на рабочем столе" />
+			</div>
+		</div>
 		<h2 id="modules">Модули, подключенные по умолчанию</h2>
 		<p>
 		</p>

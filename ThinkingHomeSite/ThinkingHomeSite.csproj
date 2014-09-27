@@ -155,6 +155,7 @@
     <Content Include="Content\images\section-in-list.png" />
     <Content Include="Content\images\start-page-large.png" />
     <Content Include="Content\images\start-page-scheme.png" />
+    <Content Include="Content\images\start-page-shortcuts.png" />
     <Content Include="Content\images\start-page-small.png" />
     <Content Include="Content\images\start-page-tile-classes.png" />
     <Content Include="Content\images\start-page-wide-tile.png" />
