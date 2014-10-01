@@ -8,13 +8,13 @@
 	bool isRoot = VirtualPathUtility.ToAppRelative(url) == "~/";
 
 	bool isActiveItem = isRoot
-		? Request.RawUrl.Equals(url, StringComparison.InvariantCultureIgnoreCase)
+		? Request.RawUrl.TrimEnd('/').Equals(url.TrimEnd('/'), StringComparison.InvariantCultureIgnoreCase)
 		: Request.RawUrl.StartsWith(url, StringComparison.InvariantCultureIgnoreCase);
 
 	if (isActiveItem)
 	{
 	<li class="active">
-		<a href="#">@title</a>
+		<a href="@url">@title</a>
 	</li>
 	}
 	else

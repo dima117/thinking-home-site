@@ -211,6 +211,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Plugins.cshtml" />
     <Content Include="Views\Home\Scripts.cshtml" />
+    <Content Include="Views\Home\GettingStarted.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -234,7 +235,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>24797</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:3571/</IISUrl>
+          <IISUrl>http://localhost:24797/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
