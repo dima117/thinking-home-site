@@ -54,13 +54,13 @@
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="SimpleForum.Domain, Version=0.4.5.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SimpleForum.Domain, Version=0.4.6.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SimpleForum.0.4.5.0\lib\net45\SimpleForum.Domain.dll</HintPath>
+      <HintPath>..\packages\SimpleForum.0.4.6.0\lib\net45\SimpleForum.Domain.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleForum.Web, Version=0.4.5.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SimpleForum.Web, Version=0.4.6.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SimpleForum.0.4.5.0\lib\net45\SimpleForum.Web.dll</HintPath>
+      <HintPath>..\packages\SimpleForum.0.4.6.0\lib\net45\SimpleForum.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
