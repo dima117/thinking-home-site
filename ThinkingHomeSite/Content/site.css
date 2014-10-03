@@ -20,6 +20,10 @@
     background-color: #5d9bd1;
 }
 
+.nav-pills > li > a {
+	padding: 10px 14px;
+}
+
 .jumbotron {
 	/*background-color: #5d9bd1;*/
 	background-color: #5d9bd1;
@@ -51,4 +55,26 @@
 .ths-social {
 	margin-top: 8px;
 	margin-right: 4px;
+}
+
+@media screen and (max-width: 1199px) {
+	.nav-pills {
+		max-width: 520px;
+	}
+
+	.nav-pills > li {
+		width: 160px;
+		margin: 1px !important;
+	}
+}
+@media screen and (max-width: 767px) {
+	.container .jumbotron {
+		-ms-border-radius: 0;
+		border-radius: 0;
+	}
+
+	.nav-pills > li {
+		width: 160px;
+		margin: 1px !important;
+	}
 }
