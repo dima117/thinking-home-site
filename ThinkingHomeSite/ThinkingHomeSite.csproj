@@ -149,6 +149,7 @@
     <Content Include="Content\images\btn-add-tile-sections.png" />
     <Content Include="Content\images\btn-add-tile-weather.png" />
     <Content Include="Content\images\common-pages.png" />
+    <Content Include="Content\images\scheme.png" />
     <Content Include="Content\images\script-editor.png" />
     <Content Include="Content\images\script-event-handlers.png" />
     <Content Include="Content\images\script-list.png" />
