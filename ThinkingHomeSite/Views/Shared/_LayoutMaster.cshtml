@@ -35,7 +35,7 @@
 	<link href="~/Content/site.css" rel="stylesheet" />
 
 	<script>
-	
+
 		function addListener(element, type, callback) {
 			if (element.addEventListener) element.addEventListener(type, callback);
 			else if (element.attachEvent) element.attachEvent('on' + type, callback);
@@ -58,9 +58,12 @@
 			<div class="col-md-4">
 				<a class="ths-brand-name" href="@Url.Action("Index", "Home", new { Area = "" })">Thinking-Home.<span>System</span>
 				</a>
+				<a class="btn btn-default pull-right hidden-md hidden-lg js-btn-menu">
+					<i class="fa fa-2x fa-bars"></i>
+				</a>
 			</div>
 
-			<div class="col-md-8">
+			<div class="col-md-8 hidden-sm hidden-xs js-menu">
 				<ul class="nav nav-pills pull-right">
 					@RenderNavMenuItem("Добро пожаловать!", "Index", "Home")
 					@RenderNavMenuItem("С чего начать", "GettingStarted", "Home")
@@ -71,7 +74,7 @@
 				</ul>
 			</div>
 		</div>
-		
+
 		<div class="yashare-auto-init pull-right ths-social" data-yasharel10n="ru" data-yasharetype="small"
 			data-yasharequickservices="vkontakte,facebook,twitter,gplus" data-yasharetheme="counter">
 		</div>
@@ -87,5 +90,8 @@
 	<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 	<script src="~/Scripts/bootstrap.min.js"></script>
 	<script src="~/Scripts/share.min.js"></script>
+	<script>
+		$(function () { $('.js-btn-menu').click(function () { $('.js-menu').toggleClass('opened-nav-menu'); }); });
+	</script>
 </body>
 </html>

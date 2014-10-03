@@ -2,6 +2,11 @@
 	margin: 20px -15px 42px -15px;
 }
 
+.ths-site-header > div {
+	margin-bottom: 4px;
+}
+
+
 .ths-brand-name {
 	height: 40px;
 	line-height: 40px;
@@ -41,10 +46,11 @@
     color: #fff;
 }
 .btn-outline-inverse:hover, .btn-outline-inverse:focus, .btn-outline-inverse:active {
-    background-color: #fff;
+	background-color: #fff;
     border-color: #fff;
     color: #5d9bd1;
-    text-shadow: none;
+	-ms-text-shadow: none;
+	text-shadow: none;
 }
 
 .ths-image {
@@ -67,6 +73,18 @@
 		margin: 1px !important;
 	}
 }
+
+@media screen and (max-width: 991px) {
+	.opened-nav-menu {
+		display: block !important;
+		margin-top: 8px;
+	}
+
+	.opened-nav-menu .nav-pills {
+		float: none !important;
+	}
+}
+
 @media screen and (max-width: 767px) {
 	.container .jumbotron {
 		-ms-border-radius: 0;
