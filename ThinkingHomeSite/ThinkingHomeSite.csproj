@@ -154,6 +154,8 @@
     <Content Include="Content\images\installer-complete.png" />
     <Content Include="Content\images\installer-progress.png" />
     <Content Include="Content\images\installer-start.png" />
+    <Content Include="Content\images\new-alarm.png" />
+    <Content Include="Content\images\new-script.png" />
     <Content Include="Content\images\scheme.png" />
     <Content Include="Content\images\script-editor.png" />
     <Content Include="Content\images\script-event-handlers.png" />
