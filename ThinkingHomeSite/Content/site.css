@@ -33,11 +33,21 @@
 	/*background-color: #5d9bd1;*/
 	background-color: #5d9bd1;
 	color: #fff;
-	margin: 0 -15px;
+	margin: 0 -15px 32px -15px;
+	padding-top: 36px;
+	padding-bottom: 36px;
+}
+
+.jumbotron h1 {
+	font-size: 48px;
 }
 
 .jumbotron .btn {
 	margin-bottom: 8px;
+}
+
+.ths-index-icon {
+	margin-top: 20px;
 }
 
 .btn-outline-inverse {
