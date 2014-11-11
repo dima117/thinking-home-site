@@ -28,24 +28,20 @@
 			Для создания собственного плагина необходимо выполнить 5 простых шагов:
 		</p>
 		<ol>
-			<li>
-				Создать проект в любой IDE и добавить в него ссылку на библиотеку ThinkingHome.Core.Plugins
+			<li>Создать проект в любой IDE и добавить в него ссылку на библиотеку ThinkingHome.Core.Plugins
 				(самый простой способ сделать это - набрать в консоли
 				Nuget Package Manager <kbd>Install-Package ThinkingHome.Core.Plugins</kbd>).
 				Бесплатные IDE типа Visual Studio Express и SharpDevelop вполне подойдут.
 			</li>
-			<li>
-				Создать класс и пометить его атрибутом <code>[ThinkingHome.Core.Plugins.PluginAttribute]</code>;
+			<li>Создать класс и пометить его атрибутом <code>[ThinkingHome.Core.Plugins.PluginAttribute]</code>;
 			</li>
-			<li>
-				Унаследовать созданный класс от базового класса <code>ThinkingHome.Core.Plugins.PluginBase</code>
+			<li>Унаследовать созданный класс от базового класса <code>ThinkingHome.Core.Plugins.PluginBase</code>
 				и, при необходимости, переопределить его виртуальные методы <code>void InitPlugin()</code>
 				(инициализация), <code>void StartPlugin()</code> (выполняется при запуске сервиса, когда
 				все плагины уже инициализорованы), <code>void StopPlugin()</code> (выполняется при
 				остановке сервиса).
 			</li>
-			<li>
-				Реализовать нужную логику плагина.
+			<li>Реализовать нужную логику плагина.
 				<p>...</p>
 			</li>
 			<li>PROFIT!!!</li>
@@ -561,6 +557,11 @@ public void MyHandler(DateTime now)
 			Например, веб-интерфейс работает именно таким образом. 
 		</p>
 		<p>
+			Самый легкий способ подключить плагин <code>ThinkingHome.Plugins.Listener</code> в свой 
+			проект - через менеджер пакетов NuGet. Просто наберите в консоли менеджера пакетов
+			<kbd>Install-Package ThinkingHome.Plugins.Listener</kbd>
+		</p>
+		<p>
 			Для того, чтобы метод плагина мог быть вызван по HTTP, необходимо, чтобы он принимал один параметр
 			типа <code>ThinkingHome.Plugins.Listener.Api.HttpRequestParams</code>, возвращад значение типа
 			<code>object</code> и был помечен атрибутом <code>ThinkingHome.Plugins.Listener.Attributes.HttpCommandAttribute</code>
@@ -674,13 +675,26 @@ public object UpdateLocationWeather(HttpRequestParams request)
 			<li>Первый параметр - это относительный URL, при запросе на который будет возвращен указанный файл.</li>
 			<li>Второй параметр - путь к файлу в ресурсах плагина.</li>
 			<li>Третий (не обязательный) параметр - mime type:
-			если его не указать, файл будет передан на клиент как "text/plain".</li>
+				если его не указать, файл будет передан на клиент как "text/plain".</li>
 		</ul>
+		<h3>Выбор URL для методов и ресурсов плагина</h3>
+		<p>
+			Стандартные плагины следуют правилу формирования URL, согласно которому:
+		</p>
+		<ul>
+			<li>адреса для вызова методов плагинов начинаются с подстроки <kbd>/api</kbd></li>
+			<li>адреса для ресурсов веб-интерфейса начинаются с подстроки <kbd>/webapp</kbd></li>
+		</ul>
+		<p>
+			Рекомендуем вам в собственных плагинах выбирать адреса аналогичным способом.
+		</p>
 		<h3>Управление электроприборами</h3>
 		<p>
 			Плагин <code>ThinkingHome.Plugins.NooLite.NooLitePlugin</code> позволяет управлять электроприборами
 			через систему nooLite и обрабатывать команды от пультов и датчиков nooLite, полученные 
-			USB-адаптером RX1164/2164.
+			USB-адаптером RX1164/2164. Подключить плагин <code>ThinkingHome.Plugins.NooLite</code> в свой 
+			проект можно через менеджер пакетов NuGet. Наберите в консоли менеджера пакетов
+			<kbd>Install-Package ThinkingHome.Plugins.NooLite</kbd>
 		</p>
 		<p>
 			Для отправки команд силовым блокам nooLite через USB-адаптер PC11xx используйте метод 
@@ -688,8 +702,8 @@ public object UpdateLocationWeather(HttpRequestParams request)
 			номер канала и уровень яркости, который нужно установить в канале.
 		</p>
 		<pre>
-	// устанавливаем в 7 канале уровень яркости = 90%
-	Context.GetPlugin&lt;<strong>NooLitePlugin</strong>>().SetLevel(7, 90);
+// устанавливаем в 7 канале уровень яркости = 90%
+Context.GetPlugin&lt;<strong>NooLitePlugin</strong>>().SetLevel(7, 90);
 </pre>
 		<p>
 			Для подписки на событие "получена команда" USB-адаптера RX1164/2164 используйте атрибут
@@ -708,6 +722,34 @@ public void MyNooLiteRXHandler(int cmd, int channel, byte[] data)
 	Logger.Info("Получена команда {0} в {1} канале", cmd, channel);
 }
 </pre>
+		<p>
+			Плагин <code>NooLitePlugin</code> также предоставляет специальное событие "получены данные микроклимата",
+			которое генерируется, если полученная команда содержит информацию о температуре/влажности
+			с датчиков nooLite.
+		</p>
+		<p>
+			Для добавления собственного обработчика события "получены данные микроклимата" используйте
+			атрибут <code>ThinkingHome.Plugins.NooLite.OnMicroclimateDataReceivedAttribute</code>. Обработчики
+			этого события не должны возвращать никакого значения (<code>void</code>) и должны принимать 
+			три входных параметра:
+		</p>
+		<ul>
+			<li><code>int channel</code> - номер канала адаптера, в котрый пришла команда;</li>
+			<li><code>decimal temperature</code> - значение температуры, измеренное датчиком;</li>
+			<li><code>int humidity</code> - значение влажности, измеренное датчиком.</li>
+		</ul>
+		<pre>
+[OnMicroclimateDataReceived]
+public void MyMicroclimateHandler(int channel, decimal temperature, int humidity)
+{
+	Logger.Info("Microclimate: c={0}, t={1}, h={2}", channel, temperature, humidity);
+}
+</pre>
+		<p>
+			Обратите внимание, вместе с событием "получены данные микроклимата", как и при 
+			получении любой другой команды, генерируется также событие "получена команда", 
+			которое рассмотрено чуть выше.
+		</p>
 		<h3>Предоставление доступа сценариям к методам плагинов</h3>
 		<p>
 			В разделе о сценариях мы видели, что можно вызывать из сценариев методы плагинов. Примерно так:
