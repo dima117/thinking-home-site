@@ -149,11 +149,6 @@
     <Content Include="Content\images\btn-add-tile-sections.png" />
     <Content Include="Content\images\btn-add-tile-weather.png" />
     <Content Include="Content\images\common-pages.png" />
-    <Content Include="Content\images\forecast-tile-btn.png" />
-    <Content Include="Content\images\forecast-tile.png" />
-    <Content Include="Content\images\installer-complete.png" />
-    <Content Include="Content\images\installer-progress.png" />
-    <Content Include="Content\images\installer-start.png" />
     <Content Include="Content\images\new-alarm.png" />
     <Content Include="Content\images\new-script.png" />
     <Content Include="Content\images\scheme.png" />
@@ -161,6 +156,8 @@
     <Content Include="Content\images\script-event-handlers.png" />
     <Content Include="Content\images\script-list.png" />
     <Content Include="Content\images\section-in-list.png" />
+    <Content Include="Content\images\setup-step-2.png" />
+    <Content Include="Content\images\setup-step-3.png" />
     <Content Include="Content\images\start-page-large.png" />
     <Content Include="Content\images\start-page-scheme.png" />
     <Content Include="Content\images\start-page-shortcuts.png" />
