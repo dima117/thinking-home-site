@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -149,9 +150,11 @@
     <Content Include="Content\images\btn-add-tile-sections.png" />
     <Content Include="Content\images\btn-add-tile-weather.png" />
     <Content Include="Content\images\common-pages.png" />
+    <Content Include="Content\images\dashboard-settings.png" />
     <Content Include="Content\images\new-alarm.png" />
     <Content Include="Content\images\new-script.png" />
     <Content Include="Content\images\scheme.png" />
+    <Content Include="Content\images\script-editor-fullscreen.png" />
     <Content Include="Content\images\script-editor.png" />
     <Content Include="Content\images\script-event-handlers.png" />
     <Content Include="Content\images\script-list.png" />
