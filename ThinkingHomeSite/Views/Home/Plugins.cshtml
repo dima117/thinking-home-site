@@ -681,16 +681,16 @@ public object UpdateLocationWeather(HttpRequestParams request)
         <p>
             Плагин "ListenerPlugin" также позволяет назначать URL для файлов, находящихся в ресурсах плагина
             (Embedded Resource). Т.е. вы можете пометить плагин специальным атрибутом
-            <code>ThinkingHome.Plugins.Listener.Attributes.HttpResourceAttribute</code> и в его параметрах
+            <code>ThinkingHome.Plugins.Listener.Attributes.HttpEmbeddedResourceAttribute</code> и в его параметрах
             указать, какой файл нужно вернуть по какому URL. Например, эта возможность используется
             для подключения в веб-интерфейс шрифта с погодными иконками:
         </p>
         <pre>
-[HttpResource(
+[HttpEmbeddedResource(
 	"/webapp/weather/fonts/weathericons-regular-webfont.eot", 
 	"ThinkingHome.Plugins.Weather.Resources.fonts.weathericons-regular-webfont.eot", 
 	"application/vnd.ms-fontobject")]
-[HttpResource(
+[HttpEmbeddedResource(
 	"/webapp/weather/fonts/weathericons-regular-webfont.svg", 
 	"ThinkingHome.Plugins.Weather.Resources.fonts.weathericons-regular-webfont.svg", 
 	"image/svg+xml")]

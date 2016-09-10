@@ -327,9 +327,9 @@ template: _.template(<strong>'<%= name %> (<%= id %>)'</strong>)
 			Для подключения шаблонов из отдельных файлов, в первую очередь, нужно поместить файлы с шаблонами
 			в ресурсы плагина и настроить доступ к ним по  HTTP. Для этого необходимо установить для файлов с
 			шаблонами параметр <em>Build action</em> = <em>EmbeddedResource</em>, пометить класс плагина
-			атрибутом <code>ThinkingHome.Plugins.Listener.Attributes.HttpResourceAttribute</code>
+			атрибутом <code>ThinkingHome.Plugins.Listener.Attributes.HttpEmbeddedResourceAttribute</code>
 			(нужно добавить отдельный атрибут для каждого файла шаблона). В параметрах атрибута
-			<code>[HttpResource]</code> необходимо указать путь к файлу ресурсов и URL, котрый будет использоваться
+			<code>[HttpEmbeddedResource]</code> необходимо указать путь к файлу ресурсов и URL, котрый будет использоваться
 			для загрузки файла по протоколу HTTP.
 		</p>
 		<p>
@@ -341,7 +341,7 @@ template: _.template(<strong>'<%= name %> (<%= id %>)'</strong>)
 			Вот пример подключнения шаблона для страницы с прогнозом погоды:
 		</p>
 		<pre>
-[HttpResource(
+[HttpEmbeddedResource(
 	"/webapp/weather/forecast.tpl",						<strong>// URL для загрузки файла</strong>
 	"ThinkingHome.Plugins.Weather.Resources.js.forecast.forecast.tpl")]	<strong>// путь к файлу в ресурсах плагина</strong>
 public class WeatherUIPlugin : PluginBase
@@ -495,7 +495,7 @@ define(
 			дополнительным атрибутом <code>ThinkingHome.Plugins.WebUI.Attributes.CssResourceAttribute</code>.
 		</p>
 		<p>
-			Атрибут <code>[CssResource]</code> похож на знакомые нам атрибуты <code>[HttpResource]</code>
+			Атрибут <code>[CssResource]</code> похож на знакомые нам атрибуты <code>[HttpEmbeddedResource]</code>
 			и <code>[JavaScriptResource]</code>, с помощью которых мы задавали URL для файлов шаблонов и дополнительных
 			модулей с кодом. Атрибут <code>[CssResource]</code> отличается тем, что
 			содержит дополнительный параметр <code><strong>bool</strong> AutoLoad</code>. Если указать
