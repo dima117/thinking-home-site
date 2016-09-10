@@ -574,7 +574,7 @@ public void AutomaticUpdate()
         <p>
             Т. е. если вы добавите для какого-то метода атрибут <code>[RunPeriodically(10)]</code>, то
             этот метод будет выполнен не позже, чем через 10 минут после старта сервиса, а после этого будет запускаться
-            через каждые 10 минут. 
+            через каждые 10 минут.
         </p>
         <h3>Обработка HTTP-запросов</h3>
         <p>
@@ -716,6 +716,27 @@ public object UpdateLocationWeather(HttpRequestParams request)
         <p>
             Рекомендуем вам в собственных плагинах выбирать адреса аналогичным способом.
         </p>
+        <h3>Настройка порта для плагина Listener</h3>
+        <p>
+            Вы можете указать порт, на котором будет работать плагин <code>ThinkingHome.Plugins.Listener</code>
+            в настройках приложения: в файле <code>ThinkingHome.Service.exe.config</code>, параметр
+            <code>configuration/appSettings/add[@@key='Listener.Port']</code> (для тестового приложения настраивать порт
+            нужно в файле <code>ThinkingHome.TestConsole.exe.config</code>).
+        </p>
+        <pre>
+&lt;?xml version="1.0" encoding="utf-8" ?>
+&lt;configuration>
+    &lt;appSettings>
+        &lt;add key="Listener.Port" value="41831" />
+        ...
+    &lt;/appSettings>
+    ...
+&lt;/configuration>
+</pre>
+        @*<h3>111 </h3>
+        <p>
+
+        </p>*@
         <h3>Управление электроприборами</h3>
         <p>
             Плагин <code>ThinkingHome.Plugins.NooLite.NooLitePlugin</code> позволяет управлять электроприборами
