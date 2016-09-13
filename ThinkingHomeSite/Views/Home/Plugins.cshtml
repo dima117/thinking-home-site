@@ -805,7 +805,6 @@ Context.GetPlugin&lt;ListenerPlugin>().Send(
         <pre>
 var connection = $.hubConnection(),
     hub = connection.createHubProxy('messageQueueHub');
-
 // получение сообщений
 hub.on('serverMessage', function(message){
     /* message: 
@@ -816,13 +815,10 @@ hub.on('serverMessage', function(message){
             "data": { "field1": "value1", "field2": "value2"}
         } */
 });
-
 // открываем соединение
 connection.start();
-
 // если подключаемся с другого домена, нужно добавить параметр jsonp: true 
 // connection.start({ jsonp: true });
-
 // отправка сообщений
 hub.invoke("Send", channel, data);
 </pre>
@@ -855,13 +851,36 @@ hub.invoke("Send", channel, data);
         </p>
         <p>
             Для отправки команд силовым блокам nooLite через USB-адаптер PC11xx используйте метод
-            <code>void SetLevel(int channel, int level)</code>. Этот метод принимает 2 аргумента:
-            номер канала и уровень яркости, который нужно установить в канале.
+            <code>void SendCommand(int command, int channel, int level)</code>. Этот метод принимает 3 аргумента:
+            код команды, номер канала и уровень яркости, который нужно установить в канале (если для
+            команды не нужен уровень яркости, передайте любое значение, например, 0).
         </p>
         <pre>
-// устанавливаем в 7 канале уровень яркости = 90%
-Context.GetPlugin&lt;<strong>NooLitePlugin</strong>>().SetLevel(7, 90);
+// устанавливаем в 7 канале уровень яркости = 100%
+// 6 - код команды "установить уровень яркости"
+// 7 - номер канала
+// 255 - уровень яркости (byte)
+Context.GetPlugin&lt;<strong>NooLitePlugin</strong>>().SendCommand(6, 7, 255);
 </pre>
+        <p>
+            Для отправки команд силовому блоку nooLite SD111-180 (управляет светодиодными RGB-лентами)
+            используйте метод
+            <code>void SendLedCommand(int ledCommand, int channel, int levelR = 0, int levelG = 0, int levelB = 0)</code>.
+            Он принимает такой же набор аргументов, как метод <code>SendCommand</code>, но уровень
+            яркости задается тремя значениями: отдельно для красного, зеленого и синего каналов.
+        </p>
+        <pre>
+// устанавливаем в 4 канале фиолетовый цвет светодиодной RGB-ленты
+Context.GetPlugin&lt;<strong>NooLitePlugin</strong>>().SendLedCommand(6, 4, 255, 0, 255);
+</pre>
+        <p>
+            Для удобства изменения уровня яркости плагин <code>NooLitePlugin</code> имеет еще две команды:
+            <code>void SetLevel(int channel, int level)</code> и <code>void SetRgbLevel(int channel, int levelR, int levelG, int levelB)</code>.
+            Они работают аналогично командам <code>SendCommand</code> и <code>SendLedCommand</code> соответственно,
+            но им не нужно передавать первый аргумент (код команды). Можно считать, что он всегда имеет
+            значение 6 (установить уровень яркости).
+        </p>
+        <h4>События</h4>
         <p>
             Для подписки на событие "получена команда" USB-адаптера RX1164/2164 используйте атрибут
             <code>ThinkingHome.Plugins.NooLite.OnRXCommandReceivedAttribute</code>. Обработчики
