@@ -2,6 +2,7 @@
     ViewBag.Title = "Создание плагинов";
 }
 
+
 <div class="row">
     <div class="col-md-12">
         <h1>Создание плагинов</h1>
@@ -765,8 +766,8 @@ public class FileSystemResourceAttribute : HttpResourceAttribute
         <p>
             Плагин Listener имеет средства для передачи сообщений между сервером и клиентом (например, браузером), причем
             инициировать отправку сообщения может как клиент, так и сервер. В начале работы плагин Listener создает SignalR Hub
-            с именем <code>messagequeuehub</code>. В него можно отправлять сообщения с клиента и сервера и эти сообщения
-            будут получены всеми клиентами, подключенными в текущий момент.
+            (сейчас используется SignalR версии 2.2.0) с именем <code>messagequeuehub</code>. В него можно отправлять сообщения
+            с клиента и сервера и эти сообщения будут получены всеми клиентами, подключенными в текущий момент.
         </p>
         <p>
             Например, плагин, получающий информацию с датчиков температуры, при получении нового значения температуры
@@ -797,21 +798,48 @@ Context.GetPlugin&lt;ListenerPlugin>().Send(
             <li><strong>data</strong> &ndash; сериализованные в JSON данные.</li>
         </ul>
         <p>
-            Получение сообщения на клиенте и отправка сообщений со стороны клиента будут рассмотрены в разделе про разработку
-            интерфейса пользователя.
+            Чтобы получить отправленные сообщения в браузере: подключите на страницу библиотеки
+            <a href="https://jquery.com" target="_blank">jQuery</a> и ASP.NET SignalR 2.2.0 (например, из
+            <a href="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.0.min.js">CDN</a>).
         </p>
-        <h3>Настройка порта для плагина Listener</h3>
+        <pre>
+var connection = $.hubConnection(),
+    hub = connection.createHubProxy('messageQueueHub');
+
+// получение сообщений
+hub.on('serverMessage', function(message){
+    /* message: 
+        {
+            "guid":"f7d14f74-b5d9-4439-926f-e30f4a686a77",
+            "timestamp":"2016-09-12T22:59:41.5679055+03:00",
+            "channel":"channel:name",
+            "data": { "field1": "value1", "field2": "value2"}
+        } */
+});
+
+// открываем соединение
+connection.start();
+
+// если подключаемся с другого домена, нужно добавить параметр jsonp: true 
+// connection.start({ jsonp: true });
+
+// отправка сообщений
+hub.invoke("Send", channel, data);
+</pre>
+        <h3>Параметры плагина Listener</h3>
         <p>
-            Вы можете указать порт, на котором будет работать плагин <code>ThinkingHome.Plugins.Listener</code>
-            в настройках приложения: в файле <code>ThinkingHome.Service.exe.config</code>, параметр
-            <code>configuration/appSettings/add[@@key='Listener.Port']</code> (для тестового приложения настраивать порт
-            нужно в файле <code>ThinkingHome.TestConsole.exe.config</code>).
+            Вы можете настраивать параметры работы плагина <code>ThinkingHome.Plugins.Listener</code>
+            в настройках приложения: в файле <code>ThinkingHome.Service.exe.config</code> (параметры
+            тестового приложения находятся в файлк <code>ThinkingHome.TestConsole.exe.config</code>).
         </p>
         <pre>
 &lt;?xml version="1.0" encoding="utf-8" ?>
 &lt;configuration>
     &lt;appSettings>
+        &lt;!-- номер порта -->
         &lt;add key="Listener.Port" value="41831" />
+        &lt;!-- разрешить/запретить отправку сообщений в шину с других доменов через JSONP -->
+        &lt;add key="Listener.Hub.EnableJSONP" value="true" />
         ...
     &lt;/appSettings>
     ...
