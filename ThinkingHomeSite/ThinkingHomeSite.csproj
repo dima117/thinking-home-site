@@ -151,6 +151,11 @@
     <Content Include="Content\images\btn-add-tile-weather.png" />
     <Content Include="Content\images\common-pages.png" />
     <Content Include="Content\images\dashboard-settings.png" />
+    <Content Include="Content\images\mqtt-topic-basics.png" />
+    <Content Include="Content\images\mqtt-topic-wildcard-hash-example.png" />
+    <Content Include="Content\images\mqtt-topic-wildcard-hash.png" />
+    <Content Include="Content\images\mqtt-topic-wildcard-plus-example.png" />
+    <Content Include="Content\images\mqtt-topic-wildcard-plus.png" />
     <Content Include="Content\images\new-alarm.png" />
     <Content Include="Content\images\new-script.png" />
     <Content Include="Content\images\scheme.png" />

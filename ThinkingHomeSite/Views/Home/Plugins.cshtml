@@ -977,6 +977,102 @@ public void MyMicroclimateHandler(int channel, decimal temperature, int humidity
                 В остальных случаях возвращается 500 ошибка.
             </li>
         </ul>
+        <h3>Взаимодействие с устройствами по протоколу MQTT</h3>
+        <h4>Основы MQTT</h4>
+        <p>
+            MQTT (Message Queue Telemetry Transport) - лёгкий сетевой протокол работающий поверх TCP/IP.
+            Он используется для обмена сообщения между устройствами по принципу издатель-подписчик (publish–subscribe).
+        </p>
+        <p>
+            Протокол MQTT требует обязательного наличия брокера данных. Брокер — это программа, выполняющая функции TCP сервера
+            и организующая обмен сообщений между клиентами. Все устройства (клиенты) посылают данные только брокеру и принимают
+            данные тоже только от него.
+        </p>
+        <p>
+            Сообщение MQTT - это набор байтов. Для каждого отправляемого сообщения необходимо указать название канала
+            (Topic name) - идентификатор, зная который клиенты могут подписаться на сообщения в канале.
+            При поступлении сообщения его автоматически получат все клиенты, подписанные на канал, в который оно было отправлено.
+        </p>
+        <p>
+            Названия каналов - это строки в кодировке UTF-8. Названия каналов могут состоять из одной или нескольких частей,
+            котрые называются "уровни" (topic level). Для разделения уровней используют символ <code>/</code> (прямой слэш).
+        </p>
+        <img src="~/Content/images/mqtt-topic-basics.png" />
+        <p>
+            Название канала должно состоять хотя бы из одного символа. Название канала может содержать пробелы.
+            Название канала зависит от регистра: назвния <code>myhome/temperature</code> и <code>MyHome/Temperature</code>
+            соответствуют двум разным каналам.
+        </p>
+        <p>
+            Для подписки сразу на несколько каналов вы можете использовать маски (wildcards).
+        </p>
+        <p>
+            Маска <code>+</code> означает <strong>один любой уровень</strong>.
+        </p>
+        <img src="~/Content/images/mqtt-topic-wildcard-plus.png" />
+        <img src="~/Content/images/mqtt-topic-wildcard-plus-example.png" />
+        <p>
+            Маска <code>#</code> означает <strong>любое количество уровней</strong>.
+        </p>
+        <img src="~/Content/images/mqtt-topic-wildcard-hash.png" />
+        <img src="~/Content/images/mqtt-topic-wildcard-hash-example.png" />
+        <h4> Плагин ThinkingHome.Plugins.Mqtt</h4>
+        <p>
+            Плагин <code>ThinkingHome.Plugins.Mqtt</code> - это MQTT-клиент. При старте сервиса он подключается к MQTT-брокеру,
+            заданному в настройках приложения и получает все сообщения в заданном канале. Полученные сообщения сохраняются
+            в БД (хранится только последнее сообщение для каждого канала).
+        </p>
+        <p>
+            Вы можете получить из БД последнее сообщение в канале с помощью метода
+            <code>MqttMessage Read(string path, ISession session = null)</code>. Первым параметром необходимо передать
+            полное название канала. Второй параметр (необязательный) - сессия NHibernate, которая будет использоваться
+            для получения информации из БД. Передавайте второй параметр, если хотите прочитать данные для нескольких
+            канало в одной сессии.
+        </p>
+        <pre>
+var msg = Context.GetPlugin&lt;MqttPlugin>().Read("parts/of/topic/name");
+</pre>
+        <p>
+            Кроме того, плагин <code>ThinkingHome.Plugins.Mqtt</code> предоставляет событие, которое происходит
+            в момент получения нового MQTT-сообщения и сохранения его в БД. Для того, чтобы вызвать метод своего
+            плагина при получении MQTT-сообщения, пометьте его атрибутом
+            <code>ThinkingHome.Plugins.Mqtt.OnMqttMessageReceivedAttribute</code>. Обработчик события должен принимать
+            один параметр класса <code>ThinkingHome.Plugins.Mqtt.MqttMessage</code> и не должен возвращать значение (void).
+        </p>
+        <pre>
+[OnMqttMessageReceived]
+public void MyMethod(MqttMessage message)
+{
+    Logger.Debug("TMP: new mqtt message {{ path: \"{0}\", data: \"{1}\" }}", message.path, message.GetUtf8String());
+}
+</pre>
+        <p>
+            В примерах выше вы видели, что из метода <code>Read</code> и в обработчик <code>[OnMqttMessageReceived</code>
+            приходит экземпляр класса <code>ThinkingHome.Plugins.Mqtt.MqttMessage</code>. Это специальный класс,
+            экземпляры которого содержат информацию о принятом MQTT-сообщении и предоставляют API для работы с ним.
+        </p>
+        <pre>
+namespace ThinkingHome.Plugins.Mqtt
+{
+	public class MqttMessage
+	{
+        <strong>// название канала</strong>
+		public string path;
+
+        <strong>// дата получения сообщения</strong>
+		public DateTime timestamp;
+
+        <strong>// полученные данные</strong>
+		public byte[] message;
+
+        <strong>// преобразовать данные в строку в кодировке UTF8</strong>
+		public string GetUtf8String();
+
+        <strong>// преобразовать данные в строку Base64</strong>
+		public string GetBase64String();
+	}
+}
+</pre>
         <h3>Предоставление доступа сценариям к методам плагинов</h3>
         <p>
             В разделе о сценариях мы видели, что можно вызывать из сценариев методы плагинов. Примерно так:
