@@ -1058,20 +1058,30 @@ namespace ThinkingHome.Plugins.Mqtt
 	{
         <strong>// название канала</strong>
 		public string path;
-
         <strong>// дата получения сообщения</strong>
 		public DateTime timestamp;
-
         <strong>// полученные данные</strong>
 		public byte[] message;
-
         <strong>// преобразовать данные в строку в кодировке UTF8</strong>
 		public string GetUtf8String();
-
         <strong>// преобразовать данные в строку Base64</strong>
 		public string GetBase64String();
 	}
 }
+</pre>
+        <h3>Проигрывание звука</h3>
+        <p>
+            Вы можете проигрывать небольшие WAV файлы с помощью плагина <code>ThinkingHome.Plugins.Audio.AudioPlugin</code>.
+            Он содержит единственный метод <code>IPlayback Play(Stream stream, int loop = 1)</code> который принимает на вход
+            поток, содержащий WAV файл для проигрывания, и количество повторов (необязательный параметр, по умолчанию файл проигрывается один раз).
+            Метод <code>Play</code> возвращает объект, реализующий интерфейс <code>ThinkingHome.Plugins.Audio.IPlayback</code>.
+            Он содержит единственный метод <code>void Stop()</code>, с помощью которго можно остановить проигрывание файла
+            до того, как он будет проигран заданное количество раз.
+        </p>
+        <pre>
+var playback = Context.GetPlugin&lt;AudioPlugin>().Play(stream, 10);
+...
+playback.Stop();
 </pre>
         <h3>Предоставление доступа сценариям к методам плагинов</h3>
         <p>
