@@ -68,7 +68,7 @@ define(                 // определяем новый модуль наше
     "My plugin", // название рездела 
     SectionType.Common, // тип раздела (Common/System) 
     "/my-plugin/my-file.js", // URL для js-файла с реализацией интерфейса 
-    "ThinkingHome.Plugins.MyPlugin.Resources.my-file.js")] // путь к js-файлу	раздела в ресурсах DLL
+    "ThinkingHome.Plugins.MyPlugin.Resources.my-file.js")] // путь к js-файлу раздела в ресурсах DLL
 </pre>
         <p>
             Соберите проект и перезапустите приложение. В списке пользоваательских разделов должен появиться
@@ -88,17 +88,61 @@ define(                 // определяем новый модуль наше
         </p>
         <h2 id="create-section">Добавление нового раздела</h2>
         <p>
-            Любой раздел системы - это небольшая программа на языке JavaScript. Она описывает, что именно
-            должен видеть пользователь на экране и какие действия должны быть выполнены, когда пользователь
+            Любая "страница" веб-интерфейса системы - это небольшая программа на языке JavaScript.
+            Она описывает, что именно должен видеть пользователь на экране и какие действия должны быть выполнены, когда пользователь
             взаимодействует с элементами интерфейса.
         </p>
         <p>
             Для добавления нового раздела в систему необходимо в проекте вашего плагина создать js файл,
-            который будет содержать js-код раздела. Далее необходимо настроить загрузку js-файла раздела в браузер.
-            Для этого в свойствах файла укажите для параметра <em>Build action</em> значение <em>EmbeddedResource</em>
-            и задайте URL для файла.
+            который будет содержать js-код раздела. Далее необходимо настроить загрузку созданного js-файла в браузер.
+            Для этого поместите файл в ресурсы DLL и задайте URL для файла.
         </p>
-
+        <p>
+            Чтобы поместить файл в ресурсы DLL, в свойствах файла укажите для параметра <em>Build action</em>
+            значение <em>EmbeddedResource</em>.
+        </p>
+        <p>
+            Для того, чтобы назначить файлу URL, пометьте свой плагин атрибутом <code>ThinkingHome.Plugins.WebUI.Attributes.JavaScriptResource</code>
+            из сборки <code>ThinkingHome.Plugins.WebUI</code>. Он унаследован от <code>ThinkingHome.Plugins.Listener.Attributes.HttpEmbeddedResourceAttribute</code>
+            и устанавливает для ответа правильный content type. Самый простой способ подключить библиотеку <code>ThinkingHome.Plugins.WebUI</code>
+            в свой проект - набрать в консоли Nuget Package Manager <kbd>Install-Package ThinkingHome.Plugins.WebUI</kbd>.
+        </p>
+        <pre>
+[Plugin]
+[JavaScriptResource(
+    "/my-plugin/my-file.js", // желаемый URL файла 
+    "ThinkingHome.Plugins.MyPlugin.Resources.my-file.js")] // путь к файлу в ресурсах DLL
+public class MyPlugin : PluginBase
+{
+	...
+}          	
+</pre>
+        <p>
+            Плагин<code>ThinkingHome.Plugins.WebUI</code> предоставляет также специальный атрибут
+            <code>ThinkingHome.Plugins.WebUI.Attributes.AppSection</code>, с помощью которого вы можете
+            автоматически добавить свой раздел в меню системных или пользовательских разделов. Просто используйте
+            атрибут <code>[AppSection]</code> вместо атрибута <code>[JavaScriptResource]</code>.
+        </p>
+        <pre>
+[Plugin]
+[AppSection(<strong>"My plugin"</strong>,			// название рездела
+        <strong>SectionType.Common</strong>,		// тип раздела
+        <strong>"/my-plugin/my-file.js"</strong>,	// URL
+        <strong>"ThinkingHome.Plugins.MyPlugin.Resources.my-file.js"</strong>)]
+public class MyPlugin : PluginBase
+{
+	...
+}
+</pre>
+        <p>
+            Кроме желаемого URL и пути к файлу в ресурсах DLL, для атрибута <code>[AppSection]</code> необходимо
+            указать два дополнительных параметра: название раздела и его тип (пользовательский/системный).
+            После этого ссылка на раздел автоматически добавится в нужный список разделов.
+        </p>
+        <p>
+            <img class="img-responsive ths-image" src="~/Content/images/section-in-list.png" />
+        </p>
+        <h3>Клиентская часть</h3>
         <p>
             Веб-интерфейс загружает разделы через
             <a href="http://requirejs.org" target="_blank">require.js</a>,
@@ -151,30 +195,6 @@ define(
             выдает пользователю alert с текстом "module started!".
         </p>
 
-        <p>
-            Для того, чтобы указать URL, пометьте свой плагин атрибутом <code>ThinkingHome.Plugins.WebUI.Attributes.AppSection</code>
-            из сборки <code>ThinkingHome.Plugins.WebUI</code> (если вы еще не добавили ее к проекту, самый простой способ сделать это - набрать в консоли
-            Nuget Package Manager <kbd>Install-Package ThinkingHome.Plugins.WebUI</kbd>)
-        </p>
-        <pre>
-[Plugin]
-[AppSection(<strong>"My plugin"</strong>,			// название рездела
-        <strong>SectionType.Common</strong>,		// тип раздела
-        <strong>"/my-plugin/my-file.js"</strong>,	// URL
-        <strong>"ThinkingHome.Plugins.MyPlugin.Resources.my-file.js"</strong>)]
-public class MyPlugin : PluginBase
-{
-	...
-}
-</pre>
-        <p>
-            Кроме URL и пути к файлу ресурса, в параметрах атрибута <code>[AppSection]</code>
-            необходимо указать название раздела и его тип ("пользовательский" или "системный"). После этого ссылка на раздел автоматически
-            добавится в нужный список разделов.
-        </p>
-        <p>
-            <img class="img-responsive ths-image" src="~/Content/images/section-in-list.png" />
-        </p>
         <h2 id="views">Отображение данных на странице</h2>
         <p>
             Данные появляются в модуле из источника данных (например они могут быть получены с сервера или введены пользователем).
